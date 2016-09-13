@@ -1,0 +1,5 @@
+E:\MPP\Tracer\Tracer\obj\Debug\Tracer.csprojResolveAssemblyReference.cache
+E:\MPP\Tracer\Tracer\bin\Debug\Tracer.dll
+E:\MPP\Tracer\Tracer\bin\Debug\Tracer.pdb
+E:\MPP\Tracer\Tracer\obj\Debug\Tracer.dll
+E:\MPP\Tracer\Tracer\obj\Debug\Tracer.pdb
