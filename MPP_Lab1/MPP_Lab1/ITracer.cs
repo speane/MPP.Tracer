@@ -8,5 +8,10 @@ namespace MPP_Lab1
 {
     interface ITracer
     {
+        void StartTrace();
+        void StopTrace();
+        TraceResult GetTraceResult();
+
+       
     }
 }
