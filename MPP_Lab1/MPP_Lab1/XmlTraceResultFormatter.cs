@@ -4,30 +4,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
+using System.Xml.Linq;
 namespace MPP_Lab1
 {
     class XmlTraceResultFormatter : ITraceResultFormatter
     {
-        private void Print(ConcurrentBag<TraceResult> result,string stackIndent)
+        private void AddElement(ConcurrentBag<TraceResult> result, XElement element)
         {
+            XElement elem;
             foreach (TraceResult node in result)
             {
                 if (node.IsThreadChild)
                 {
-                    Console.WriteLine("Thread ID:{0} time={1}ms", node.ThreadId, node.ExecutionTime);
+                    elem = new XElement("thread", new XAttribute("id", Convert.ToString(node.ThreadId)), new XAttribute("time", Convert.ToString(node.ExecutionTime)));
                 }
                 else
                 {
-                    Console.WriteLine("{0}Method name:{1} time={2}ms class:{3} params={4}",
-                    stackIndent, node.MethodName, node.ExecutionTime, node.ClassName, node.ParametrsNumber);
+                    elem = new XElement("method", new XAttribute("name", node.MethodName), new XAttribute("time", Convert.ToString(node.ExecutionTime)),
+                                        new XAttribute("class", node.ClassName), new XAttribute("params", Convert.ToString(node.ParametrsNumber)));
                 }
-                Print(node.childs, stackIndent + " ");
+                element.Add(elem);
+                AddElement(node.childs, elem);
             }
-            stackIndent = stackIndent.Substring(0, stackIndent.Length - 1 < 0 ? 0 : stackIndent.Length - 1);
-        }
-        public void Format (TraceResult result)
-        {
 
+        }
+        public void Format(TraceResult result)
+        {
+            XElement element = new XElement("root");
+            AddElement(result.childs, element);
+            XDocument xDoc = new XDocument();
+            xDoc.Add(element);
+            xDoc.Save("tracer.xml");
         }
     }
 }
