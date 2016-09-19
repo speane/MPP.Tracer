@@ -13,11 +13,11 @@ namespace MPP_Lab1
         private static volatile Tracer instance = null;
         private static readonly object syncRoot = new Object();
         private TraceResult result;
-        private ConcurrentDictionary<int, ConcurrentStack<TraceResult>> callstack;
+        private ConcurrentDictionary<int, Stack<TraceResult>> callstack;
         protected Tracer()
         {
             result = new TraceResult(0);
-            callstack = new ConcurrentDictionary<int, ConcurrentStack<TraceResult>>();
+            callstack = new ConcurrentDictionary<int, Stack<TraceResult>>();
         }
         public static Tracer Instance()
         {
@@ -43,7 +43,11 @@ namespace MPP_Lab1
                 node = new TraceResult(id);
                 result.childs.Add(node);
                 stack.Push(node);
-                callstack.Add(id, stack);
+                callstack[id] = stack;
+            }
+            else
+            {
+                stack = callstack[id];
             }
             StackTrace trace = new StackTrace(false);
             var method = trace.GetFrame(1).GetMethod();
@@ -69,7 +73,7 @@ namespace MPP_Lab1
             node.StopWatch();
 
         }
-        TraceResult GetTraceResult()
+        public TraceResult GetTraceResult()
         {
             return result;
         }

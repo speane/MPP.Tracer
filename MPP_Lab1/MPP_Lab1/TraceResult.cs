@@ -10,7 +10,7 @@ namespace MPP_Lab1
 {
     class TraceResult
     {
-        public ConcurrentBag<TraceResult> childs;
+        public ConcurrentBag<TraceResult> childs;// Видимо нехорошо делать public поле, как обойти это в случае списка??
         private string methodName;
         private string className;
         private long executionTime;
