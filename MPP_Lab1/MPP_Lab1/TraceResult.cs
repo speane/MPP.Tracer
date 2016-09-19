@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Collections.Concurrent;
 
 namespace MPP_Lab1
 {
     class TraceResult
     {
-        public List<TraceResult> childs;
+        public ConcurrentBag<TraceResult> childs;
         private string methodName;
         private string className;
         private long executionTime;
@@ -40,14 +41,14 @@ namespace MPP_Lab1
             parametrsNumber = number;
             //threadId = id;
             isThreadChild = false;
-            childs = new List<TraceResult>();
+            childs = new ConcurrentBag<TraceResult>();
             watch = new Stopwatch();
         }
         public TraceResult(int id)
         {
             threadId = id;
             isThreadChild = true;
-            childs = new List<TraceResult>();
+            childs = new ConcurrentBag<TraceResult>();
             watch = new Stopwatch();
         }
     }

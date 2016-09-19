@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Diagnostics;
+using System.Collections.Concurrent;
 namespace MPP_Lab1
 {
-    class Tracer
+    class Tracer : ITracer
     {
-        public TraceResult result = new TraceResult(0);
-        Dictionary<int, Stack<TraceResult>> callstack = new Dictionary<int, Stack<TraceResult>>();
+        private TraceResult result = new TraceResult(0);
+        private ConcurrentDictionary<int, ConcurrentStack<TraceResult>> callstack = new ConcurrentDictionary<int, ConcurrentStack<TraceResult>>();
 
         public void StartTrace()
         {
@@ -47,6 +48,11 @@ namespace MPP_Lab1
             TraceResult node = stack.Pop();
             node.StopWatch();
 
+        }
+
+        TraceResult GetTraceResult()
+        {
+            return result;
         }
     }
 }
