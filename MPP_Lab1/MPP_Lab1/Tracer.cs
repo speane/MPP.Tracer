@@ -10,9 +10,29 @@ namespace MPP_Lab1
 {
     class Tracer : ITracer
     {
-        private TraceResult result = new TraceResult(0);
-        private ConcurrentDictionary<int, ConcurrentStack<TraceResult>> callstack = new ConcurrentDictionary<int, ConcurrentStack<TraceResult>>();
-
+        private static volatile Tracer instance = null;
+        private static readonly object syncRoot = new Object();
+        private TraceResult result;
+        private ConcurrentDictionary<int, ConcurrentStack<TraceResult>> callstack;
+        protected Tracer()
+        {
+            result = new TraceResult(0);
+            callstack = new ConcurrentDictionary<int, ConcurrentStack<TraceResult>>();
+        }
+        public static Tracer Instance()
+        {
+            if (instance == null)
+            {
+                lock (syncRoot)
+                {
+                    if(instance == null)
+                    {
+                        instance = new Tracer();
+                    }
+                }
+            }
+            return instance;
+        }
         public void StartTrace()
         {
             int id = Thread.CurrentThread.ManagedThreadId;
@@ -49,10 +69,10 @@ namespace MPP_Lab1
             node.StopWatch();
 
         }
-
         TraceResult GetTraceResult()
         {
             return result;
         }
+
     }
 }
