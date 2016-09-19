@@ -10,7 +10,7 @@ namespace MPP_Lab1
     class Tracer
     {
         public TraceResult result = new TraceResult(0);
-        private TraceResult node;
+        Dictionary<int, Stack<TraceResult>> callstack = new Dictionary<int, Stack<TraceResult>>();
 
         private TraceResult isThreadExist(int id)
         {
@@ -62,7 +62,7 @@ namespace MPP_Lab1
                 return result + 1;
             }
         }
-        public void StartTrace()
+       /* public void StartTrace()
         {
             Thread thread = Thread.CurrentThread;
             int id = thread.ManagedThreadId;
@@ -77,7 +77,6 @@ namespace MPP_Lab1
             for (int i = frames.Length-1;i>0;i--)
             {
                 string methodName = GetMethodName(frames[i].GetMethod().ToString());
-
                 int paramsNumber = GetParamsNumber(frames[i].GetMethod().ToString());
                 TraceResult findedNode = isMethodExist(methodName, node);
 
@@ -94,5 +93,29 @@ namespace MPP_Lab1
 
             }
         }
+        * */
+        public void StartTrace()
+        {
+            int id = Thread.CurrentThread.ManagedThreadId;
+            Stack<TraceResult> stack = new Stack<TraceResult>();
+            TraceResult node;
+            if (!callstack.ContainsKey(id))
+            {
+                node = new TraceResult(id);
+                result.childs.Add(node);
+                stack.Push(node);
+                callstack.Add(id, stack);
+            }
+            StackTrace trace = new StackTrace(false);
+            var method = trace.GetFrame(1).GetMethod();
+            string methodName = method.Name;
+            string className = method.DeclaringType.ToString();
+            int paramsNumber = method.GetParameters().Length;
+            node = new TraceResult(methodName, className, 0, paramsNumber);
+            stack.Peek().childs.Add(node);
+            stack.Push(node);
+            node.StartWatch();
+        }
+
     }
 }
