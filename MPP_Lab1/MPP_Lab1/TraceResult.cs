@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace MPP_Lab1
 {
@@ -14,18 +15,33 @@ namespace MPP_Lab1
         private int executionTime;
         private int parametrsNumber;
         private int threadId;
+        private bool isThreadChild;
+        private Stopwatch watch;
         public string MethodName { get { return methodName; } set { methodName = value ; } }
         public string ClassName { get { return className; } set { className = value; } }
         public int ExecutionTime { get { return executionTime; } set { executionTime = value; } }
         public int ParametrsNumber { get { return parametrsNumber; } set { parametrsNumber = value; } }
+        public bool IsThreadChild { get { return isThreadChild; } }
         public int ThreadId { get { return threadId; } set { threadId = value; } }
-        public TraceResult (string name, string className, int time, int number, int id)
+        public TraceResult (string name, string className, int time, int number)
         {
             methodName = name;
             this.className = className;
             executionTime = time;
             parametrsNumber = number;
+            //threadId = id;
+            isThreadChild = false;
+            childs = new List<TraceResult>();
+            watch = new Stopwatch();
+            watch.Start();
+        }
+        public TraceResult(int id)
+        {
             threadId = id;
+            isThreadChild = true;
+            childs = new List<TraceResult>();
+            watch = new Stopwatch();
+            watch.Start();
         }
     }
 }
