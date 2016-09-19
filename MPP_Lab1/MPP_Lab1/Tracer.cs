@@ -71,6 +71,10 @@ namespace MPP_Lab1
                 return;
             TraceResult node = stack.Pop();
             node.StopWatch();
+            if (stack.Count == 1)
+            {
+                stack.Peek().GetEllapsedTime();
+            }
 
         }
         public TraceResult GetTraceResult()

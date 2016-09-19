@@ -33,6 +33,13 @@ namespace MPP_Lab1
             watch.Stop();
             executionTime = watch.ElapsedMilliseconds;
         }
+        public void GetEllapsedTime()
+        {
+            if (IsThreadChild)
+            {
+                executionTime = watch.ElapsedMilliseconds;
+            }
+        }
         public TraceResult (string name, string className, int time, int number)
         {
             methodName = name;
@@ -50,6 +57,7 @@ namespace MPP_Lab1
             isThreadChild = true;
             childs = new ConcurrentBag<TraceResult>();
             watch = new Stopwatch();
+            watch.Start();
         }
     }
 }
