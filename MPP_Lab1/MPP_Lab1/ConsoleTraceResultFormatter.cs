@@ -9,7 +9,7 @@ namespace MPP_Lab1
 {
     class ConsoleTraceResultFormatter : ITraceResultFormatter
     {
-        private void Print(ConcurrentBag<TraceResult> result, string stackIndent)
+        private void Print(List<TraceResult> result, string stackIndent)
         {
             foreach (TraceResult node in result)
             {
@@ -28,7 +28,7 @@ namespace MPP_Lab1
         }
         public void Format(TraceResult result)
         {
-            Print(result.childs, "");
+            Print(result.childs, string.Empty);
         }
     }
 }

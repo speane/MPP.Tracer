@@ -9,7 +9,7 @@ namespace MPP_Lab1
 {
     class XmlTraceResultFormatter : ITraceResultFormatter
     {
-        private void AddElement(ConcurrentBag<TraceResult> result, XElement element)
+        private void AddElement(List<TraceResult> result, XElement element)
         {
             XElement elem;
             foreach (TraceResult node in result)

@@ -14,7 +14,7 @@ namespace MPP_Lab1
         private static readonly object syncRoot = new Object();
         private TraceResult result;
         private ConcurrentDictionary<int, Stack<TraceResult>> callstack;
-        protected Tracer()
+        private Tracer()
         {
             result = new TraceResult(0);
             callstack = new ConcurrentDictionary<int, Stack<TraceResult>>();
@@ -68,7 +68,10 @@ namespace MPP_Lab1
                 stack = callstack[id];
             }
             else
-                return;
+			{
+				return;
+			}
+
             TraceResult node = stack.Pop();
             node.StopWatch();
             if (stack.Count == 1)
