@@ -116,6 +116,19 @@ namespace MPP_Lab1
             stack.Push(node);
             node.StartWatch();
         }
+        public void StopWatch()
+        {
+            int id = Thread.CurrentThread.ManagedThreadId;
+            Stack<TraceResult> stack;
+            if (callstack.ContainsKey(id))
+            {
+                stack = callstack[id];
+            }
+            else
+                return;
+            TraceResult node = stack.Pop();
+            node.StopWatch();
 
+        }
     }
 }
