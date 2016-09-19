@@ -15,7 +15,7 @@ namespace MPP_Lab1
             {
                 if (node.IsThreadChild)
                 {
-                    Console.WriteLine("Thread ID: " + node.ThreadId);
+                    Console.WriteLine("Thread ID:{0} time={1}ms", node.ThreadId,node.ExecutionTime);
                 }
                 else
                 {
@@ -23,8 +23,8 @@ namespace MPP_Lab1
                     stackIndent,node.MethodName,node.ExecutionTime,node.ClassName,node.ParametrsNumber);
                 }
                 Print(node.childs, stackIndent + " ");
-                stackIndent = stackIndent.Substring(0, stackIndent.Length - 1 < 0 ? 0 : stackIndent.Length - 1);
             }
+            stackIndent = stackIndent.Substring(0, stackIndent.Length - 1 < 0 ? 0 : stackIndent.Length - 1);
         }
         public void Format(TraceResult result)
         {
