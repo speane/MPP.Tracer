@@ -9,7 +9,7 @@ namespace MPP_Lab1
 {
     class XmlTraceResultFormatter : ITraceResultFormatter
     {
-        private string filename;
+        private readonly string filename;
         public XmlTraceResultFormatter (string filename)
         {
             this.filename = filename;

@@ -10,7 +10,7 @@ namespace MPP_Lab1
 {
     class TraceResult
     {
-        public List<TraceResult> _childs;
+        private List<TraceResult> _childs;
         private string methodName;
         private string className;
         private long executionTime;
