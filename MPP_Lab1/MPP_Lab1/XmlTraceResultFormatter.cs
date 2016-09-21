@@ -9,7 +9,12 @@ namespace MPP_Lab1
 {
     class XmlTraceResultFormatter : ITraceResultFormatter
     {
-        private void AddElement(List<TraceResult> result, XElement element)
+        private string filename;
+        public XmlTraceResultFormatter (string filename)
+        {
+            this.filename = filename;
+        }
+		private void AddElement(List<TraceResult> result, XElement element)
         {
             XElement elem;
             foreach (TraceResult node in result)
@@ -34,7 +39,7 @@ namespace MPP_Lab1
             AddElement(result.childs, element);
             XDocument xDoc = new XDocument();
             xDoc.Add(element);
-            xDoc.Save("tracer.xml");
+            xDoc.Save(filename);
         }
     }
 }
