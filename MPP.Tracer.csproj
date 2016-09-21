@@ -36,10 +36,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MPP.Tracer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Release\MPP.Tracer.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -58,6 +54,7 @@
     <Compile Include="Tracer.cs" />
     <Compile Include="TraceResult.cs" />
     <Compile Include="MethodTree.cs" />
+    <Compile Include="XMLFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
