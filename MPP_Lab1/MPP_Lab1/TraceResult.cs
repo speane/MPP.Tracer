@@ -10,7 +10,7 @@ namespace MPP_Lab1
 {
     class TraceResult
     {
-        public List<TraceResult> childs;
+        public List<TraceResult> _childs;
         private string methodName;
         private string className;
         private long executionTime;
@@ -18,6 +18,10 @@ namespace MPP_Lab1
         private int threadId;
         private bool isThreadChild;
         private Stopwatch watch;
+		public List<TraceResult> childs
+        {
+            get { return _childs; }
+        }
         public string MethodName
 		{ 
 			get { return methodName; }
