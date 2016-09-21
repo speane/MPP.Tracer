@@ -22,7 +22,7 @@ namespace Tracer
         {
             StackTraceSample sample = new StackTraceSample();
             ConsoleTraceResultFormatter consoleFormatter = new ConsoleTraceResultFormatter();
-            XmlTraceResultFormatter xmlFormatter = new XmlTraceResultFormatter();
+            XmlTraceResultFormatter xmlFormatter = new XmlTraceResultFormatter("trace_result.xml");
             tracer = TracerLibrary.Tracer.Instance();
             Thread th = new Thread(a);
             th.Start();
