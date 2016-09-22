@@ -6,27 +6,15 @@ namespace MPP.Tracer
 {
     public class Tracer : ITracer
     {
-        private static volatile Tracer instance = null;
-        private static readonly object locker = new object();
+        private static readonly Tracer instance = new Tracer();
         private TraceResult traceResult;
         public static Tracer Instance
         {
             get
             {
-                if (instance == null)
-                {
-                    lock (locker)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new Tracer();
-                        }
-                    }
-                    
-                }
                 return instance;
             }
-        } 
+        }
        
         private Tracer()
         {
