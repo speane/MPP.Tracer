@@ -19,7 +19,7 @@ namespace MPP.Tracer
                 return totalTime;
             }
         }
-        public DateTime stop;
+        private DateTime stop;
         public DateTime Stop
         {
             get
