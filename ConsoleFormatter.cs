@@ -26,7 +26,7 @@ namespace MPP.Tracer
         
         private string GetTabString(int count)
         {
-            return new StringBuilder().Append('\t', count).ToString();
+            return new string('\t', count);
         }
     }
 }
