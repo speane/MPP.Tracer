@@ -16,6 +16,11 @@ namespace MPP.Tracer
             }
         }
        
+        static Tracer()
+        {
+
+        }
+
         private Tracer()
         {
             traceResult = new TraceResult();
