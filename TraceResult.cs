@@ -16,17 +16,25 @@ namespace MPP.Tracer
 
         public void AddMethod(MethodBase CurrentMethod)
         {
-            MethodTree thisTree = GetMethodTreeInstance();
+            MethodTree thisTree = GetMethodTreeInstance(
+                Thread.CurrentThread.ManagedThreadId);
             MethodNode parentMethod = thisTree.LastMethod;
-            MethodNode CurrentMethodNode = new MethodNode(CurrentMethod,
-                DateTime.Now, parentMethod);
-            parentMethod.ChildrenList.Add(CurrentMethodNode);
-            thisTree.LastMethod = CurrentMethodNode;
+            parentMethod.Start = DateTime.Now;
+            thisTree.LastMethod = createMethodandAddToParent(CurrentMethod,
+                parentMethod);
         }
 
-        private MethodTree GetMethodTreeInstance()
+        private MethodNode createMethodandAddToParent(MethodBase CurrentMethod, 
+            MethodNode ParentMethod)
         {
-            int ThreadId = Thread.CurrentThread.ManagedThreadId;
+            MethodNode methodNode = new MethodNode(CurrentMethod,
+                ParentMethod.Start, ParentMethod);
+            ParentMethod.ChildrenList.Add(methodNode);
+            return methodNode;
+        }
+
+        private MethodTree GetMethodTreeInstance(int ThreadId)
+        {
             if (ThreadsDictionary.ContainsKey(ThreadId))
             {
                 return ThreadsDictionary[ThreadId];
@@ -54,6 +62,7 @@ namespace MPP.Tracer
                 {
                     MethodNode currentMethod = thisTree.LastMethod;
                     currentMethod.Stop = StopTime;
+                    thisTree.Root.Stop = StopTime;
                     thisTree.LastMethod = currentMethod.ParentMethod;
                 }
             }

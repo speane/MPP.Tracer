@@ -10,7 +10,7 @@ namespace MPP.Tracer
     public class MethodNode
     {
         public string Name { get; }
-        public DateTime Start { get; }
+        public DateTime Start { get; set; }
         private long totalTime;
         public long TotalTime
         {

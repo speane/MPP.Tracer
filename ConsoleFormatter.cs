@@ -13,8 +13,8 @@ namespace MPP.Tracer
             ConcurrentDictionary<int, MethodTree> dictionary = traceResult.ThreadsDictionary;
             foreach (int ThreadId in dictionary.Keys)
             {
-                Console.WriteLine("ThreadId={0}", ThreadId);
                 MethodTree thisTree = dictionary[ThreadId];
+                Console.WriteLine("ThreadId={0} Time={1}", ThreadId,thisTree.Root.TotalTime);
                 foreach (MethodNode node in thisTree.BypassTree())
                 {
                     Console.WriteLine("{0} Method={1} Class={2} Params={3} Time={4}",
