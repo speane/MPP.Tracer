@@ -20,11 +20,11 @@ namespace MPP.Tracer
                 Thread.CurrentThread.ManagedThreadId);
             MethodNode parentMethod = thisTree.LastMethod;
             parentMethod.Start = DateTime.Now;
-            thisTree.LastMethod = createMethodandAddToParent(CurrentMethod,
+            thisTree.LastMethod = CreateMethodandAddToParent(CurrentMethod,
                 parentMethod);
         }
 
-        private MethodNode createMethodandAddToParent(MethodBase CurrentMethod, 
+        private MethodNode CreateMethodandAddToParent(MethodBase CurrentMethod, 
             MethodNode ParentMethod)
         {
             MethodNode methodNode = new MethodNode(CurrentMethod,
