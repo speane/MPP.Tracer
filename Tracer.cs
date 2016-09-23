@@ -15,11 +15,6 @@ namespace MPP.Tracer
                 return instance;
             }
         }
-       
-        static Tracer()
-        {
-
-        }
 
         private Tracer()
         {
