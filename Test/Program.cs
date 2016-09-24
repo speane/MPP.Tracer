@@ -13,9 +13,7 @@ namespace Test
         private static readonly int sleepTimeCeiling = 500;
         private static readonly string pathToXml = "D:\\1.xml";
 
-        private static volatile ITracer tracer = Tracer.Instance();
-        private static volatile ITraceResultFormatter consoleFormatter = ConsoleTraceResultFormatter.Instance();
-        private static volatile ITraceResultFormatter xmlFormatter = XmlTraceResultFormatter.Instance(pathToXml);
+        private static ITracer tracer = Tracer.Instance();
         private static Random rnd = new Random();
         
 
@@ -73,7 +71,9 @@ namespace Test
             Thread.Sleep(rnd.Next(sleepTimeCeiling));
             tracer.StopTrace();
             TotalTraceResult totalTraceResult = tracer.GetTraceResult();
+            ITraceResultFormatter consoleFormatter = new ConsoleTraceResultFormatter();
             consoleFormatter.Format(totalTraceResult);
+            ITraceResultFormatter xmlFormatter = new XmlTraceResultFormatter(pathToXml);
             xmlFormatter.Format(totalTraceResult);
             
             Console.Read();

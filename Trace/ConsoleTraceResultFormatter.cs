@@ -8,41 +8,19 @@ using System.Diagnostics;
 namespace Trace
 {
     public class ConsoleTraceResultFormatter : ITraceResultFormatter
-    {
-        private static volatile ConsoleTraceResultFormatter instance = null;
-        private static readonly Object syncRoot = new Object();
-
-        private static readonly string initialIndent = "";
+    { 
+        private static readonly string initialIndent = String.Empty;
         private static readonly string indentIncrease = "   ";
-
-        private ConsoleTraceResultFormatter() { }
-
-        public static ConsoleTraceResultFormatter Instance()
-        {
-            if (instance == null)
-            {
-                lock (syncRoot)
-                {
-                    if (instance == null)
-                    {
-                        instance = new ConsoleTraceResultFormatter();
-                    }
-                }
-            }
-            return instance;
-        }
 
         public void Format(TotalTraceResult totalTraceResult)
         {
-            lock(syncRoot)
+            foreach (TraceResult traceResult in totalTraceResult.ThreadTraceResults)
             {
-                foreach (TraceResult traceResult in totalTraceResult.ThreadTraceResults)
-                {
-                    Console.WriteLine("-> Thread ID: {0}", traceResult.ThreadId);
-                    Traverse(traceResult, initialIndent); ;
-                    Console.WriteLine();
-                }
+                Console.WriteLine("-> Thread ID: {0}", traceResult.ThreadId);
+                Traverse(traceResult, initialIndent); 
+                Console.WriteLine();
             }
+            
         }
 
         private void PrintEntryInfo(TraceResult traceResult, string indent)

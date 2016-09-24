@@ -10,67 +10,29 @@ namespace Trace
 {
     public class XmlTraceResultFormatter : ITraceResultFormatter
     {
-        private static volatile XmlTraceResultFormatter instance = null;
-        private static readonly Object syncRoot = new Object();
-
         private string pathToXml;
         private Stack<XElement> currentMethodElementStack;
 
-        private XmlTraceResultFormatter(string pathToXml)
+        public XmlTraceResultFormatter(string pathToXml)
         {
             this.pathToXml = pathToXml;
             currentMethodElementStack = new Stack<XElement>();
         }
-
-        public static XmlTraceResultFormatter Instance(string pathToXml)
-        {
-            if (instance == null)
-            {
-                lock (syncRoot)
-                {
-                    if (instance == null)
-                    {
-                        instance = new XmlTraceResultFormatter(pathToXml);
-                    }
-                }
-            }
-            return instance;
-        }
-
              
 
         public void Format(TotalTraceResult totalTraceResult)
         {
             XDocument xmlDoc;
-            XElement rootElement;
-            /*if (File.Exists(pathToXml))
+            xmlDoc = new XDocument();
+            XElement rootElement = new XElement("root");
+            xmlDoc.Add(rootElement);            
+            foreach (TraceResult traceResult in totalTraceResult.ThreadTraceResults)
             {
-                xmlDoc = XDocument.Load(pathToXml);
-                if (xmlDoc.Root == null)
-                {
-                    rootElement = new XElement("root");
-                }
-                else
-                {
-                    rootElement = xmlDoc.Root;
-                }
+                XElement threadElement = new XElement("thread", new XAttribute("id", traceResult.ThreadId));
+                rootElement.Add(threadElement);
+                Traverse(traceResult, threadElement);
             }
-            else
-            {*/
-                xmlDoc = new XDocument();
-                rootElement = new XElement("root");
-                xmlDoc.Add(rootElement);
-            //}
-            lock (syncRoot)
-            { 
-                foreach (TraceResult traceResult in totalTraceResult.ThreadTraceResults)
-                {
-                    XElement threadElement = new XElement("thread", new XAttribute("id", traceResult.ThreadId));
-                    rootElement.Add(threadElement);
-                    Traverse(traceResult, threadElement);
-                }
-                xmlDoc.Save(pathToXml);
-            }
+            xmlDoc.Save(pathToXml);
         }
 
         private XElement PrintEntryInfo(TraceResult traceResult)
