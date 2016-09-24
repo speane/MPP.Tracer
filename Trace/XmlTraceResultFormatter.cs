@@ -10,7 +10,7 @@ namespace Trace
 {
     public class XmlTraceResultFormatter : ITraceResultFormatter
     {
-        private string pathToXml;
+        private readonly string pathToXml;
         private Stack<XElement> currentMethodElementStack;
 
         public XmlTraceResultFormatter(string pathToXml)
@@ -26,7 +26,7 @@ namespace Trace
             xmlDoc = new XDocument();
             XElement rootElement = new XElement("root");
             xmlDoc.Add(rootElement);            
-            foreach (TraceResult traceResult in totalTraceResult.ThreadTraceResults)
+            foreach (TraceResult traceResult in totalTraceResult.ThreadTraceResultsReadOnly)
             {
                 XElement threadElement = new XElement("thread", new XAttribute("id", traceResult.ThreadId));
                 rootElement.Add(threadElement);

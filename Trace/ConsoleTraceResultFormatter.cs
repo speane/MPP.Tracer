@@ -14,7 +14,7 @@ namespace Trace
 
         public void Format(TotalTraceResult totalTraceResult)
         {
-            foreach (TraceResult traceResult in totalTraceResult.ThreadTraceResults)
+            foreach (TraceResult traceResult in totalTraceResult.ThreadTraceResultsReadOnly)
             {
                 Console.WriteLine("-> Thread ID: {0}", traceResult.ThreadId);
                 Traverse(traceResult, initialIndent); 
