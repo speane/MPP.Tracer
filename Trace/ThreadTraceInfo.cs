@@ -9,7 +9,7 @@ namespace Trace
     internal class ThreadTraceInfo
     {
         internal TraceResult ThreadRootTraceResult { get; private set; }
-        internal Stack<TraceResult> startedTraces;
+        internal Stack<TraceResult> startedTraces { get; private set; }
 
         internal ThreadTraceInfo(TraceResult traceResult)
         {

@@ -84,7 +84,7 @@ namespace Trace
                 {
                     if (entry.Value.startedTraces.Count == 0)
                     {
-                        totalTraceResult.threadTraceResults.Add(entry.Value.ThreadRootTraceResult);
+                        totalTraceResult._ThreadTraceResults.Add(entry.Value.ThreadRootTraceResult);
                     }
                 }
             }

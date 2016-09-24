@@ -8,12 +8,12 @@ namespace Trace
 {
     public class TotalTraceResult
     {       
-        internal List<TraceResult> threadTraceResults;
-        public IReadOnlyCollection<TraceResult> ThreadTraceResults { get { return threadTraceResults.AsReadOnly(); } }
+        internal List<TraceResult> _ThreadTraceResults { get; private set; }
+        public IReadOnlyCollection<TraceResult> ThreadTraceResults { get { return _ThreadTraceResults.AsReadOnly(); } }
 
         public TotalTraceResult()
         {
-            threadTraceResults = new List<TraceResult>();
+            _ThreadTraceResults = new List<TraceResult>();
         }
 
     }
