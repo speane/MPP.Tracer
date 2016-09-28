@@ -8,29 +8,57 @@ namespace Tracer
 {
     public class Tracer : ITracer
     {
-        Stopwatch timer = new Stopwatch();
+
+        private static Tracer _instance; 
+        private static readonly object Lock;
+        private static Dictionary<int, Stack<TracedMethodItem>> tracedThreads = new Dictionary<int,Stack<TracedMethodItem>>();
+        private static TraceResult result = new TraceResult();
+
+        public static Tracer getInstance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    lock (Lock)
+                    {
+                        if (_instance == null)
+                        {
+                            _instance = new Tracer();
+                        }
+                    }
+                }
+                return _instance;
+            }
+        }
+
+        private TraceResult _traceResult;
+
+        private Tracer()
+        {
+            _traceResult = new TraceResult();
+        }
 
         public void StartTrace()
         {
-            
-            timer.Start();
+            TracedMethodItem tmi = CreateTracedMethodItem();
+            int threadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
+            tracedThread(threadId, tmi);
         }
 
         public void StopTrace()
         {
-            timer.Stop();
 
         }
 
-        public TraceResult GetResult()
+        public TracedMethodItem CreateTracedMethodItem()
         {
-            StackTrace st = new StackTrace();
-            StackFrame sf = st.GetFrame(1);
-            string name = sf.GetMethod().Name;
-            string className = sf.GetMethod().DeclaringType.Name;
-            int argCount = sf.GetMethod().GetParameters().Length;
-            long time = timer.ElapsedMilliseconds;
-            return new TraceResult(className, name, time, argCount);
+            StackFrame sf = new StackTrace().GetFrame(1);
+            System.Reflection.MethodBase mb = sf.GetMethod();
+            string name = mb.Name;
+            string className = mb.DeclaringType.Name;
+            int argCount = mb.GetParameters().Length;
+            return new TracedMethodItem(name, className, argCount);
         }
 
     }

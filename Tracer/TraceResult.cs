@@ -8,22 +8,22 @@ namespace Tracer
 {
     public class TraceResult
     {
-        private string className;
-        private string methodName;
-        private long interval;
-        private int argCount;
+        //id, callStack
+        private Dictionary<int, Stack<TracedMethodItem>> tracedThreads;
 
-        public TraceResult(string className, string methodName, long interval, int argCount)
+        public TraceResult()
         {
-            this.className = className;
-            this.methodName = methodName;
-            this.interval = interval;
-            this.argCount = argCount;
+            tracedThreads = new Dictionary<int, Stack<TracedMethodItem>>();
         }
 
-        public override string ToString()
+        public void AddInnerMethod(int threadId, TracedMethodItem item)
         {
-            return String.Format("{0} {1} {2} {3}", className, methodName, interval, argCount);
+            Stack<TracedMethodItem> callstack = tracedThreads[threadId];
+            if (callstack == null)
+            {
+                callstack = new Stack<TracedMethodItem>();
+            }
+            callstack.Push(item);
         }
     }
 }
