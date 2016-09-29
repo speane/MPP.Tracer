@@ -39,10 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IFormatter.cs" />
     <Compile Include="TracedMethodItem.cs" />
     <Compile Include="Tracer.cs" />
     <Compile Include="ITracer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TracerConsoleFormatter.cs" />
     <Compile Include="TraceResult.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

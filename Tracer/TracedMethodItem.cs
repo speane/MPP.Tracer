@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
-namespace Tracer
+namespace TracerLab
 {
-    class TracedMethodItem
+    public class TracedMethodItem
     {
         internal readonly string name;
         internal readonly string className;

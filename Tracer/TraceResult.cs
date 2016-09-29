@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tracer
+namespace TracerLab
 {
     public class TraceResult
     {
         //id, callStack
-        private Dictionary<int, Stack<TracedMethodItem>> tracedThreads;
+        public Dictionary<int, Stack<TracedMethodItem>> tracedThreads;
 
         public TraceResult()
         {
@@ -18,12 +18,18 @@ namespace Tracer
 
         public void AddInnerMethod(int threadId, TracedMethodItem item)
         {
-            Stack<TracedMethodItem> callstack = tracedThreads[threadId];
-            if (callstack == null)
+            if (!tracedThreads.ContainsKey(threadId))
             {
-                callstack = new Stack<TracedMethodItem>();
+                Stack<TracedMethodItem> callstack = new  Stack<TracedMethodItem>();
+                callstack.Push(item);
+                tracedThreads.Add(threadId, callstack);
             }
-            callstack.Push(item);
+            else
+            {
+                Stack<TracedMethodItem> callstack = tracedThreads[threadId];
+                callstack.Push(item);
+            }
         }
+        
     }
 }

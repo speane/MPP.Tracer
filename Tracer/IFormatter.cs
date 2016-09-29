@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace TracerLab
 {
-    interface ITracer
+    interface ITraceFormatter
     {
-        void StartTrace();
-        void StopTrace();
-        string GetResult();
+        void Format(TraceResult traceResult);
     }
 }
