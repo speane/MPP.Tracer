@@ -20,8 +20,17 @@ namespace Tracer.Classes
         internal void StartTraceMethod(MethodBase methodBase)
         {
             var tracedMethod = new MethodTraceInfo(methodBase);
+
+            if (_callStack.Count == 0)
+            {
+                TracedMethods.Add(tracedMethod);
+            }
+            else
+            {
+                _callStack.Peek().AddNestedMethod(tracedMethod);
+            }
+
             _callStack.Push(tracedMethod);
-            TracedMethods.Add(tracedMethod);
         }
 
         internal void StopThreadTrace()

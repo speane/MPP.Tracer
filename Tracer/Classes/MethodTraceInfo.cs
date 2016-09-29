@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace Tracer.Classes
@@ -6,6 +7,7 @@ namespace Tracer.Classes
     internal class MethodTraceInfo
     {
         private readonly Stopwatch _timer;
+        internal List<MethodTraceInfo> _nestedMethods; 
         internal string ClassName;
         internal long ExecutionTime;
 
@@ -19,6 +21,15 @@ namespace Tracer.Classes
             ParametersCount = methodBase.GetParameters().Length;
             _timer = new Stopwatch();
             _timer.Start();
+        }
+
+        internal void AddNestedMethod(MethodTraceInfo method)
+        {
+            if (_nestedMethods == null)
+            {
+                _nestedMethods = new List<MethodTraceInfo>();
+            }
+            _nestedMethods.Add(method);
         }
 
         internal void StopTrace()

@@ -16,6 +16,16 @@ namespace Tracer.Classes
                     Console.WriteLine($"    Method: " + method.Name + ";Class: " + method.ClassName +
                                       ";Parameters: " + method.ParametersCount + ";time(ms): " +
                                       method.ExecutionTime);
+                    if (method._nestedMethods != null)
+                    {
+                        foreach (var nestedMethod in method._nestedMethods)
+                        {
+                            Console.WriteLine($"        Method: " + nestedMethod.Name + ";Class: " +
+                                              nestedMethod.ClassName +
+                                              ";Parameters: " + nestedMethod.ParametersCount + ";time(ms): " +
+                                              nestedMethod.ExecutionTime);
+                        }
+                    }
                 }
             }
         }
