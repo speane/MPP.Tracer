@@ -9,12 +9,12 @@ namespace Tracer.Classes
         {
             foreach (var thread in traceResult.TracedThreads)
             {
-                Console.WriteLine($"Thread id: " + thread.Key + ";elapsed milliseconds: " + thread.Value.ExecutionTime +
-                                  ";methods count: " + thread.Value.TracedMethods.Count);
+                Console.WriteLine($"Thread id: " + thread.Key + ";time(ms): " + thread.Value.ExecutionTime +
+                                  ";methods: " + thread.Value.TracedMethods.Count);
                 foreach (var method in thread.Value.TracedMethods)
                 {
-                    Console.WriteLine($"    Method name: " + method.Name + ";Class name: " + method.ClassName +
-                                      ";Parameters count: " + method.ParametersCount + ";Execution time: " +
+                    Console.WriteLine($"    Method: " + method.Name + ";Class: " + method.ClassName +
+                                      ";Parameters: " + method.ParametersCount + ";time(ms): " +
                                       method.ExecutionTime);
                 }
             }
