@@ -1,11 +1,10 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading;
 using Tracer.Interfaces;
 
 namespace Tracer.Classes
 {
-    public class Tracer: ITracer
+    public class Tracer : ITracer
     {
         private readonly TraceResult _traceResult = new TraceResult();
 
@@ -13,9 +12,8 @@ namespace Tracer.Classes
         {
             var stackTrace = new StackTrace();
             var method = stackTrace.GetFrame(1).GetMethod();
-            
-            _traceResult.StartThreadTrace(Thread.CurrentThread.ManagedThreadId, method);
 
+            _traceResult.StartThreadTrace(Thread.CurrentThread.ManagedThreadId, method);
         }
 
         public void StopTrace()
@@ -25,7 +23,7 @@ namespace Tracer.Classes
 
         public TraceResult GetTraceResult()
         {
-            return new TraceResult();
+            return _traceResult;
         }
     }
 }

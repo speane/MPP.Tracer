@@ -1,19 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
 
 namespace Tracer.Classes
 {
-    class MethodTraceInfo
+    internal class MethodTraceInfo
     {
         private readonly Stopwatch _timer;
+        internal string ClassName;
+        internal long ExecutionTime;
 
         internal string Name;
-        internal string ClassName;
-        internal string ExecutionTime;
         internal int ParametersCount;
 
-        public MethodTraceInfo(MethodBase methodBase)
+        internal MethodTraceInfo(MethodBase methodBase)
         {
             Name = methodBase.Name;
             ClassName = methodBase.DeclaringType?.ToString();
@@ -22,10 +21,10 @@ namespace Tracer.Classes
             _timer.Start();
         }
 
-        public void StopTrace()
+        internal void StopTrace()
         {
             _timer.Stop();
+            ExecutionTime = _timer.ElapsedMilliseconds;
         }
-
     }
 }

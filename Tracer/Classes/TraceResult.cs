@@ -1,28 +1,34 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Tracer.Classes
 {
     public class TraceResult
     {
-        private ConcurrentDictionary<int, ThreadTraceInfo> _tracedThreads;
+        internal ConcurrentDictionary<int, ThreadTraceInfo> TracedThreads;
 
-        public TraceResult()
+        internal TraceResult()
         {
-            _tracedThreads = new ConcurrentDictionary<int, ThreadTraceInfo>();
+            TracedThreads = new ConcurrentDictionary<int, ThreadTraceInfo>();
         }
 
-        public void StartThreadTrace(int threadId, MethodBase methodBase)
+        internal void StartThreadTrace(int threadId, MethodBase methodBase)
         {
-            
-            ThreadTraceInfo threadTraceInfo = _tracedThreads.GetOrAdd(threadId, new ThreadTraceInfo());
-         
+            var threadTraceInfo = TracedThreads.GetOrAdd(threadId, new ThreadTraceInfo());
+
             threadTraceInfo.StartTraceMethod(methodBase);
         }
 
-        public void StopThreadTrace(int threadId)
+        internal void StopThreadTrace(int threadId)
         {
-            _tracedThreads[threadId].StopThreadTrace();
+            ThreadTraceInfo threadsTraceInfo;
+            if (!TracedThreads.TryGetValue(threadId, out threadsTraceInfo))
+            {
+                throw new ArgumentException("invalid thread id");
+            }
+            threadsTraceInfo.StopThreadTrace();
         }
     }
 }
