@@ -7,7 +7,7 @@ namespace Tracer.Classes
     internal class MethodTraceInfo
     {
         private readonly Stopwatch _timer;
-        internal List<MethodTraceInfo> _nestedMethods; 
+        internal List<MethodTraceInfo> NestedMethods; 
         internal string ClassName;
         internal long ExecutionTime;
 
@@ -25,11 +25,11 @@ namespace Tracer.Classes
 
         internal void AddNestedMethod(MethodTraceInfo method)
         {
-            if (_nestedMethods == null)
+            if (NestedMethods == null)
             {
-                _nestedMethods = new List<MethodTraceInfo>();
+                NestedMethods = new List<MethodTraceInfo>();
             }
-            _nestedMethods.Add(method);
+            NestedMethods.Add(method);
         }
 
         internal void StopTrace()

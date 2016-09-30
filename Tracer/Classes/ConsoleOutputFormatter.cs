@@ -9,23 +9,36 @@ namespace Tracer.Classes
         {
             foreach (var thread in traceResult.TracedThreads)
             {
-                Console.WriteLine($"Thread id: " + thread.Key + ";time(ms): " + thread.Value.ExecutionTime +
-                                  ";methods: " + thread.Value.TracedMethods.Count);
+                Console.WriteLine(
+                    $"Thread id: {thread.Key}; time(ms): {thread.Value.ExecutionTime}; methods: {thread.Value.TracedMethods.Count};");
                 foreach (var method in thread.Value.TracedMethods)
                 {
-                    Console.WriteLine($"    Method: " + method.Name + ";Class: " + method.ClassName +
-                                      ";Parameters: " + method.ParametersCount + ";time(ms): " +
-                                      method.ExecutionTime);
-                    if (method._nestedMethods != null)
+                    Console.WriteLine($"    Method: {method.Name}; Class: {method.ClassName}; Parameters: {method.ParametersCount}; time(ms): {method.ExecutionTime};");
+                    if (method.NestedMethods != null)
                     {
-                        foreach (var nestedMethod in method._nestedMethods)
+                        foreach (var nestedMethod in method.NestedMethods)
                         {
-                            Console.WriteLine($"        Method: " + nestedMethod.Name + ";Class: " +
-                                              nestedMethod.ClassName +
-                                              ";Parameters: " + nestedMethod.ParametersCount + ";time(ms): " +
-                                              nestedMethod.ExecutionTime);
+                            FormatNestedMethod(nestedMethod);
                         }
                     }
+                }
+            }
+        }
+
+        private void FormatNestedMethod(MethodTraceInfo method, int nestingLevel = 2)
+        {
+            for (int i = 0; i < nestingLevel; i++)
+            {
+                Console.Write("    ");
+            }
+            Console.WriteLine($"Method: {method.Name}; Class: {method.ClassName}; Parameters: {method.ParametersCount}; time(ms): {method.ExecutionTime};");
+
+            if (method.NestedMethods != null)
+            {
+                foreach (var nestedMethod in method.NestedMethods)
+                {
+                    nestingLevel++;
+                    FormatNestedMethod(nestedMethod, nestingLevel);
                 }
             }
         }
