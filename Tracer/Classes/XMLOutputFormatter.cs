@@ -29,14 +29,7 @@ namespace Tracer.Classes
                     if (method.NestedMethods != null)
                     foreach (var nestedMethod in method.NestedMethods)
                     {
-                        var nestedMethodElement = new XElement("method");
-
-                        nestedMethodElement.Add(new XAttribute("name", nestedMethod.Name));
-                        nestedMethodElement.Add(new XAttribute("class", nestedMethod.ClassName));
-                        nestedMethodElement.Add(new XAttribute("parameters", nestedMethod.ParametersCount));
-                        nestedMethodElement.Add(new XAttribute("time", nestedMethod.ExecutionTime));
-
-                        methodElement.Add(nestedMethodElement);
+                        FormatNestedMethods(nestedMethod, methodElement);
                     }
 
                     threadElement.Add(methodElement);
@@ -47,6 +40,26 @@ namespace Tracer.Classes
 
             document.Add(documentRoot);
             document.Save("traceResult.xml");
+        }
+
+        public void FormatNestedMethods(MethodTraceInfo method, XElement parentMethod)
+        {
+            var nestedMethodElement = new XElement("method");
+
+            nestedMethodElement.Add(new XAttribute("name", method.Name));
+            nestedMethodElement.Add(new XAttribute("class", method.ClassName));
+            nestedMethodElement.Add(new XAttribute("parameters", method.ParametersCount));
+            nestedMethodElement.Add(new XAttribute("time", method.ExecutionTime));
+
+            if (method.NestedMethods != null)
+            {
+                foreach (var nestedMethod in method.NestedMethods)
+                {
+                    FormatNestedMethods(nestedMethod, nestedMethodElement);
+                }
+            }
+
+            parentMethod.Add(nestedMethodElement);
         }
     }
 }
