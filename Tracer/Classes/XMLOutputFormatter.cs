@@ -42,7 +42,7 @@ namespace Tracer.Classes
             document.Save("traceResult.xml");
         }
 
-        public void FormatNestedMethods(MethodTraceInfo method, XElement parentMethod)
+        private void FormatNestedMethods(MethodTraceInfo method, XElement parentMethod)
         {
             var nestedMethodElement = new XElement("method");
 

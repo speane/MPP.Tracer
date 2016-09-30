@@ -8,8 +8,8 @@ namespace Tracer
     internal class Program
     {
         private static readonly Classes.Tracer Tracer = new Classes.Tracer();
-        internal static ConsoleOutputFormatter ConsoleFormatter = new ConsoleOutputFormatter();
-        internal static XmlOutputFormatter XmlFormatter = new XmlOutputFormatter();
+        private static readonly ConsoleOutputFormatter ConsoleFormatter = new ConsoleOutputFormatter();
+        private static readonly XmlOutputFormatter XmlFormatter = new XmlOutputFormatter();
 
         private static void Main()
         {

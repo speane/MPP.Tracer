@@ -7,13 +7,14 @@ namespace Tracer.Classes
     internal class ThreadTraceInfo
     {
         private readonly Stack<MethodTraceInfo> _callStack;
-        internal List<MethodTraceInfo> TracedMethods;
 
         internal ThreadTraceInfo()
         {
             _callStack = new Stack<MethodTraceInfo>();
             TracedMethods = new List<MethodTraceInfo>();
         }
+
+        internal List<MethodTraceInfo> TracedMethods { get; }
 
         internal long ExecutionTime => TracedMethods.Select(m => m.ExecutionTime).Sum();
 

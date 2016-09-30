@@ -6,12 +6,12 @@ namespace Tracer.Classes
 {
     public class TraceResult
     {
-        internal ConcurrentDictionary<int, ThreadTraceInfo> TracedThreads;
-
         internal TraceResult()
         {
             TracedThreads = new ConcurrentDictionary<int, ThreadTraceInfo>();
         }
+
+        internal ConcurrentDictionary<int, ThreadTraceInfo> TracedThreads { get; }
 
         internal void StartThreadTrace(int threadId, MethodBase methodBase)
         {

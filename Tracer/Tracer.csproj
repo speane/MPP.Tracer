@@ -43,14 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\ConsoleOutputFormatter.cs" />
     <Compile Include="Classes\MethodTraceInfo.cs" />
     <Compile Include="Classes\ThreadTraceInfo.cs" />
     <Compile Include="Classes\Tracer.cs" />
     <Compile Include="Classes\TraceResult.cs" />
+    <Compile Include="Classes\XMLOutputFormatter.cs" />
     <Compile Include="Interfaces\ITracer.cs" />
+    <Compile Include="Interfaces\ITraceResultFormatter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test\Class1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

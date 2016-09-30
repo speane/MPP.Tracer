@@ -7,12 +7,6 @@ namespace Tracer.Classes
     internal class MethodTraceInfo
     {
         private readonly Stopwatch _timer;
-        internal string ClassName;
-        internal long ExecutionTime;
-
-        internal string Name;
-        internal List<MethodTraceInfo> NestedMethods;
-        internal int ParametersCount;
 
         internal MethodTraceInfo(MethodBase methodBase)
         {
@@ -22,6 +16,12 @@ namespace Tracer.Classes
             _timer = new Stopwatch();
             _timer.Start();
         }
+
+        internal string Name { get; }
+        internal string ClassName { get; }
+        internal long ExecutionTime { get; private set; }
+        internal int ParametersCount { get; }
+        internal List<MethodTraceInfo> NestedMethods { get; private set; }
 
         internal void AddNestedMethod(MethodTraceInfo method)
         {

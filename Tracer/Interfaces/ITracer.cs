@@ -2,7 +2,7 @@
 
 namespace Tracer.Interfaces
 {
-    interface ITracer
+    internal interface ITracer
     {
         // метод вызывается в начале замеряемого метода
         void StartTrace();
