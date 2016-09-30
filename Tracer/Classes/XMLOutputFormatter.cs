@@ -3,13 +3,13 @@ using Tracer.Interfaces;
 
 namespace Tracer.Classes
 {
-    class XmlOutputFormatter: ITraceResultFormatter
+    internal class XmlOutputFormatter : ITraceResultFormatter
     {
         public void Format(TraceResult traceResult)
         {
             var document = new XDocument();
             var documentRoot = new XElement("root");
-          
+
 
             foreach (var thread in traceResult.TracedThreads)
             {
@@ -27,10 +27,10 @@ namespace Tracer.Classes
                     methodElement.Add(new XAttribute("time", method.ExecutionTime));
 
                     if (method.NestedMethods != null)
-                    foreach (var nestedMethod in method.NestedMethods)
-                    {
-                        FormatNestedMethods(nestedMethod, methodElement);
-                    }
+                        foreach (var nestedMethod in method.NestedMethods)
+                        {
+                            FormatNestedMethods(nestedMethod, methodElement);
+                        }
 
                     threadElement.Add(methodElement);
                 }

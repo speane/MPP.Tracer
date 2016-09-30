@@ -9,10 +9,12 @@ namespace Tracer.Classes
         {
             foreach (var thread in traceResult.TracedThreads)
             {
-                Console.WriteLine($"Thread id: {thread.Key}; time(ms): {thread.Value.ExecutionTime}; methods: {thread.Value.TracedMethods.Count};");
+                Console.WriteLine(
+                    $"Thread id: {thread.Key}; time(ms): {thread.Value.ExecutionTime}; methods: {thread.Value.TracedMethods.Count};");
                 foreach (var method in thread.Value.TracedMethods)
                 {
-                    Console.WriteLine($"\tMethod: {method.Name}; Class: {method.ClassName}; Parameters: {method.ParametersCount}; time(ms): {method.ExecutionTime};");
+                    Console.WriteLine(
+                        $"\tMethod: {method.Name}; Class: {method.ClassName}; Parameters: {method.ParametersCount}; time(ms): {method.ExecutionTime};");
                     if (method.NestedMethods != null)
                     {
                         foreach (var nestedMethod in method.NestedMethods)
@@ -27,7 +29,8 @@ namespace Tracer.Classes
         private void FormatNestedMethods(MethodTraceInfo method, int nestingLevel = 2)
         {
             Console.Write(new string('\t', nestingLevel));
-            Console.WriteLine($"Method: {method.Name}; Class: {method.ClassName}; Parameters: {method.ParametersCount}; time(ms): {method.ExecutionTime};");
+            Console.WriteLine(
+                $"Method: {method.Name}; Class: {method.ClassName}; Parameters: {method.ParametersCount}; time(ms): {method.ExecutionTime};");
 
             if (method.NestedMethods != null)
             {

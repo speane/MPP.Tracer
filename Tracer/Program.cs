@@ -29,7 +29,6 @@ namespace Tracer
             Tracer.StartTrace();
 
             Thread.Sleep(sleepTime);
-
             TestMethod2(20);
 
             Tracer.StopTrace();
@@ -40,7 +39,6 @@ namespace Tracer
             Tracer.StartTrace();
 
             Thread.Sleep(sleepTime);
-
             TestMethod3(30);
 
             Tracer.StopTrace();
@@ -51,7 +49,6 @@ namespace Tracer
             Tracer.StartTrace();
 
             Thread.Sleep(sleepTime);
-
             TestMethod4(40, 5);
 
             Tracer.StopTrace();
@@ -62,7 +59,6 @@ namespace Tracer
             Tracer.StartTrace();
 
             Thread.Sleep(sleepTime);
-
             var threads = new List<Thread>();
 
             for (var i = 0; i < threadsCount; i++)
