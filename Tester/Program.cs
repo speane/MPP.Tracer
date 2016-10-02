@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using TracerLab;
 
+
 namespace Tester
 {
     class Program
@@ -14,28 +15,47 @@ namespace Tester
         static void Main(string[] args)
         {
             t.StartTrace();
-            Thread.Sleep(1);
-            RunTest(30000000);
+            FirstTest(0);
+            SecondTest(0, 0);
             t.StopTrace();
-            Console.WriteLine(t.GetResult());
-            Console.ReadLine();
+            TracerConsoleFormatter tcf = new TracerConsoleFormatter();
+            tcf.Format(t.GetResult());
+            TracerXmlFormatter txf = new TracerXmlFormatter();
+            txf.Format(t.GetResult());
+            Console.Read();
         }
 
-        private static void RunTest(int cycles)
+        private static void FirstTest(int arg1)
         {
             t.StartTrace();
-            for (int i = 0; i < cycles; i++)
+            Thread.Sleep(10);
+            List<Thread> threds = new List<Thread>();
+            for (int i = 0; i < 2; i++)
             {
-                int a = cycles * cycles;
+                threds.Add(new Thread(ThirdTest));
+                threds.Last().Start();
             }
-            stest();
+
+            foreach (var thread in threds)
+            {
+                thread.Join();
+            }
+            SecondTest(0, 0);
             t.StopTrace();
         }
 
-        private static void stest()
+        private static void SecondTest(int arg1, int arg2)
         {
             t.StartTrace();
-            Thread.Sleep(1);
+            Thread.Sleep(20);
+            ThirdTest();
+            t.StopTrace();
+        }
+
+        private static void ThirdTest()
+        {
+            t.StartTrace();
+            Thread.Sleep(30);
             t.StopTrace();
         }
     }
