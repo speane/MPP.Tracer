@@ -25,12 +25,23 @@ namespace Trace
             XDocument xmlDoc;
             xmlDoc = new XDocument();
             XElement rootElement = new XElement("root");
-            xmlDoc.Add(rootElement);            
-            foreach (TraceResult traceResult in totalTraceResult.ThreadTraceResultsReadOnly)
+            xmlDoc.Add(rootElement);
+            foreach (List<TraceResult> listTraceResult in totalTraceResult.ThreadTraceResults)
             {
-                XElement threadElement = new XElement("thread", new XAttribute("id", traceResult.ThreadId));
-                rootElement.Add(threadElement);
-                Traverse(traceResult, threadElement);
+                double totalTime = 0;
+                foreach (TraceResult traceResult in listTraceResult)
+                {
+                    totalTime += traceResult.RunTime;
+                }
+
+                XElement threadElement = new XElement("thread", new XAttribute("id", listTraceResult[0].ThreadId));
+                XAttribute totalTimeAtribute = new XAttribute("time", totalTime);
+                threadElement.Add(totalTimeAtribute);
+                foreach (TraceResult traceResult in listTraceResult)
+                {
+                    rootElement.Add(threadElement);
+                    Traverse(traceResult, threadElement);
+                }
             }
             xmlDoc.Save(pathToXml);
         }

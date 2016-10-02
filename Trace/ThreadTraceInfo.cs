@@ -8,13 +8,14 @@ namespace Trace
 {
     internal class ThreadTraceInfo
     {
-        internal TraceResult ThreadRootTraceResult { get; private set; }
-        internal Stack<TraceResult> startedTraces { get; private set; }
+        internal List<TraceResult> ThreadRootTraceResult { get; private set; }
+        internal Stack<TraceResult> StartedTraces { get; private set; }
 
         internal ThreadTraceInfo(TraceResult traceResult)
         {
-            ThreadRootTraceResult = traceResult;
-            startedTraces = new Stack<TraceResult>();
+            ThreadRootTraceResult = new List<TraceResult>();
+            ThreadRootTraceResult.Add(traceResult);
+            StartedTraces = new Stack<TraceResult>();
         }
 
     }

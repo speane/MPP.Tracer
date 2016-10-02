@@ -55,13 +55,21 @@ namespace Trace
                 if (!ThreadTraceInfoDictionary.ContainsKey(threadId))
                 {
                     ThreadTraceInfoDictionary.Add(threadId, new ThreadTraceInfo(traceResult));
-                    ThreadTraceInfoDictionary[threadId].startedTraces.Push(traceResult);
+                    ThreadTraceInfoDictionary[threadId].StartedTraces.Push(traceResult);
                 }
                 else
                 {
-                    TraceResult previousTraceResult = ThreadTraceInfoDictionary[threadId].startedTraces.Peek();
-                    previousTraceResult.AddChild(traceResult);
-                    ThreadTraceInfoDictionary[threadId].startedTraces.Push(traceResult);
+                    if (ThreadTraceInfoDictionary[threadId].StartedTraces.Count == 0)
+                    {
+                        ThreadTraceInfoDictionary[threadId].ThreadRootTraceResult.Add(traceResult);
+                        ThreadTraceInfoDictionary[threadId].StartedTraces.Push(traceResult);
+                    }
+                    else
+                    {
+                        TraceResult previousTraceResult = ThreadTraceInfoDictionary[threadId].StartedTraces.Peek();
+                        previousTraceResult.AddChild(traceResult);
+                        ThreadTraceInfoDictionary[threadId].StartedTraces.Push(traceResult);
+                    }
                 }
             }
         }
@@ -70,8 +78,11 @@ namespace Trace
         {
             DateTime stopTime = DateTime.UtcNow;
             int threadId = Thread.CurrentThread.ManagedThreadId;
-            TraceResult currentTraceResult = ThreadTraceInfoDictionary[threadId].startedTraces.Pop();
-            currentTraceResult.StopTime = stopTime;
+            lock (syncThreadTraceInfoDictionary)
+            {
+                TraceResult currentTraceResult = ThreadTraceInfoDictionary[threadId].StartedTraces.Pop();
+                currentTraceResult.StopTime = stopTime;
+            }
         }
 
 
@@ -82,7 +93,7 @@ namespace Trace
             {
                 foreach (KeyValuePair<int, ThreadTraceInfo> entry in ThreadTraceInfoDictionary)
                 {
-                    if (entry.Value.startedTraces.Count == 0)
+                    if (entry.Value.StartedTraces.Count == 0)
                     {
                         totalTraceResult.ThreadTraceResults.Add(entry.Value.ThreadRootTraceResult);
                     }

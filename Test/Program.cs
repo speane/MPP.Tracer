@@ -10,7 +10,7 @@ namespace Test
 {
     class Program
     {
-        private static readonly int sleepTimeCeiling = 500;
+        private static readonly int sleepTimeCeiling = 200;
         private static readonly string pathToXml = "D:\\1.xml";
 
         private static ITracer tracer = Tracer.Instance();
@@ -21,6 +21,11 @@ namespace Test
         {
             tracer.StartTrace();
             Thread.Sleep(rnd.Next(sleepTimeCeiling));
+            for (int i = 0; i < 5; i++)
+            {
+                Func6();
+            }
+            
             tracer.StopTrace();
         }
 
@@ -53,6 +58,15 @@ namespace Test
         {
             tracer.StartTrace();
             Func4();
+            Func6();
+            Func6();
+            Thread.Sleep(rnd.Next(sleepTimeCeiling));
+            tracer.StopTrace();
+        }
+
+        private static void Func6()
+        {
+            tracer.StartTrace();
             Thread.Sleep(rnd.Next(sleepTimeCeiling));
             tracer.StopTrace();
         }
@@ -60,8 +74,10 @@ namespace Test
 
         static void Main(string[] args)
         {
-            tracer.StartTrace();
             Func4();
+            Func1();
+            Func6();
+            Func6();
             Thread thread1 = new Thread(Func5);
             thread1.Start();
             thread1.Join();
@@ -69,7 +85,6 @@ namespace Test
             thread2.Start();
             thread2.Join();
             Thread.Sleep(rnd.Next(sleepTimeCeiling));
-            tracer.StopTrace();
             TotalTraceResult totalTraceResult = tracer.GetTraceResult();
             ITraceResultFormatter consoleFormatter = new ConsoleTraceResultFormatter();
             consoleFormatter.Format(totalTraceResult);

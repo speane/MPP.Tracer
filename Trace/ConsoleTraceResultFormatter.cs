@@ -14,10 +14,18 @@ namespace Trace
 
         public void Format(TotalTraceResult totalTraceResult)
         {
-            foreach (TraceResult traceResult in totalTraceResult.ThreadTraceResultsReadOnly)
+            foreach (List<TraceResult> listTraceResult in totalTraceResult.ThreadTraceResults)
             {
-                Console.WriteLine("-> Thread ID: {0}", traceResult.ThreadId);
-                Traverse(traceResult, initialIndent); 
+                double totalTime = 0;
+                foreach (TraceResult traceResult in listTraceResult)
+                {
+                    totalTime += traceResult.RunTime;
+                }
+                Console.WriteLine("-> Thread ID: {0}; Total Time: {1}", listTraceResult[0].ThreadId, totalTime);               
+                foreach(TraceResult traceResult in listTraceResult)
+                {
+                    Traverse(traceResult, initialIndent);
+                }
                 Console.WriteLine();
             }
             
