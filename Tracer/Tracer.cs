@@ -13,7 +13,6 @@ namespace TracerLab
         private static readonly object Lock = new object();
         private static Dictionary<int, Stack<TracedMethodItem>> tracedThreads = new Dictionary<int,Stack<TracedMethodItem>>();
         private static TraceResult result = new TraceResult();
-
         public static Tracer getInstance
         {
             get
@@ -41,8 +40,8 @@ namespace TracerLab
 
         public void StartTrace()
         {
-            TracedMethodItem tmi = CreateTracedMethodItem();
             int threadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
+            int callDepth = 0;
             if (!tracedThreads.ContainsKey(threadId))
             {
                 tracedThreads.Add(threadId, new Stack<TracedMethodItem>());
@@ -50,7 +49,9 @@ namespace TracerLab
             else
             {
                 tracedThreads[threadId].Peek().timer.Stop();
+                callDepth = tracedThreads[threadId].Peek().callDepth+1;
             }
+            TracedMethodItem tmi = CreateTracedMethodItem(callDepth);
             tracedThreads[threadId].Push(tmi);            
         }
 
@@ -64,29 +65,19 @@ namespace TracerLab
                 tracedThreads[threadId].Peek().timer.Start();
         }
 
-        public TracedMethodItem CreateTracedMethodItem()
+        public TracedMethodItem CreateTracedMethodItem(int callDepth)
         {
             StackFrame sf = new StackTrace().GetFrame(2);
             System.Reflection.MethodBase mb = sf.GetMethod();
             string name = mb.Name;
             string className = mb.DeclaringType.Name;
             int argCount = mb.GetParameters().Length;
-            return new TracedMethodItem(name, className, argCount);
+            return new TracedMethodItem(name, className, argCount, callDepth);
         }
 
-        public string GetResult()
+        public TraceResult GetResult()
         {
-            string s = "";
-            foreach(int key in result.tracedThreads.Keys)
-            {
-                while (result.tracedThreads[key].Count != 0)
-                {
-                    TracedMethodItem tmi = result.tracedThreads[key].Pop();
-                    s = s + key.ToString() + " " + tmi.className + " " + tmi.name + " " + tmi.argCount + " " + tmi.timer.ElapsedMilliseconds + "\n\r";
-                }
-            }
-            return s;
-
+            return result;
         }
 
     }

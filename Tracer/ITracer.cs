@@ -10,6 +10,6 @@ namespace TracerLab
     {
         void StartTrace();
         void StopTrace();
-        string GetResult();
+        TraceResult GetResult();
     }
 }

@@ -10,15 +10,17 @@ namespace TracerLab
     {
         internal readonly string name;
         internal readonly string className;
-        internal long startWork { set; get; }
         internal readonly int argCount;
+        internal readonly int callDepth;
         internal Stopwatch timer { get; set; }
+        
 
-        public TracedMethodItem(string name, string className, int argCount)
+        public TracedMethodItem(string name, string className, int argCount, int callDepth)
         {
             this.name = name;
             this.className = className;
             this.argCount = argCount;
+            this.callDepth = callDepth;
             this.timer = new Stopwatch();
             timer.Start();
         }

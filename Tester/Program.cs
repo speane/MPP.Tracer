@@ -3,31 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tracer;
+using System.Threading;
+using TracerLab;
 
 namespace Tester
 {
     class Program
     {
-        static Tracer.Tracer Tracer = new Tracer.Tracer();
+        public static Tracer t = Tracer.getInstance; 
         static void Main(string[] args)
         {
-            Tracer.StartTrace();
-            RunTest(20000000);
-            Tracer.StopTrace();
-            Console.WriteLine(Tracer.GetResult().ToString());
+            t.StartTrace();
+            Thread.Sleep(1);
+            RunTest(30000000);
+            t.StopTrace();
+            Console.WriteLine(t.GetResult());
+            Console.ReadLine();
         }
 
         private static void RunTest(int cycles)
         {
-            Tracer.Tracer Tracer = new Tracer.Tracer();
-            Tracer.StartTrace();
+            t.StartTrace();
             for (int i = 0; i < cycles; i++)
             {
                 int a = cycles * cycles;
             }
-            Tracer.StopTrace();
-            Console.WriteLine(Tracer.GetResult().ToString());
+            stest();
+            t.StopTrace();
+        }
+
+        private static void stest()
+        {
+            t.StartTrace();
+            Thread.Sleep(1);
+            t.StopTrace();
         }
     }
 }
