@@ -1,8 +1,0 @@
-E:\MPP\Tracer\Tester\bin\Debug\Tester.exe.config
-E:\MPP\Tracer\Tester\bin\Debug\Tester.exe
-E:\MPP\Tracer\Tester\bin\Debug\Tester.pdb
-E:\MPP\Tracer\Tester\bin\Debug\Tracer.dll
-E:\MPP\Tracer\Tester\bin\Debug\Tracer.pdb
-E:\MPP\Tracer\Tester\obj\Debug\Tester.csprojResolveAssemblyReference.cache
-E:\MPP\Tracer\Tester\obj\Debug\Tester.exe
-E:\MPP\Tracer\Tester\obj\Debug\Tester.pdb
