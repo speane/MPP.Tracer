@@ -3,8 +3,15 @@ using Tracer.Interfaces;
 
 namespace Tracer.Classes
 {
-    internal class XmlOutputFormatter : ITraceResultFormatter
+    internal sealed class XmlOutputFormatter : ITraceResultFormatter
     {
+        private readonly string _filePath;
+
+        public XmlOutputFormatter(string filePath)
+        {
+            _filePath = filePath;
+        }
+
         public void Format(TraceResult traceResult)
         {
             var document = new XDocument();
@@ -39,7 +46,7 @@ namespace Tracer.Classes
             }
 
             document.Add(documentRoot);
-            document.Save("traceResult.xml");
+            document.Save(_filePath);
         }
 
         private void FormatNestedMethods(MethodTraceInfo method, XElement parentMethod)

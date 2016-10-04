@@ -9,13 +9,14 @@ namespace Tracer
     {
         private static readonly Classes.Tracer Tracer = new Classes.Tracer();
         private static readonly ConsoleOutputFormatter ConsoleFormatter = new ConsoleOutputFormatter();
-        private static readonly XmlOutputFormatter XmlFormatter = new XmlOutputFormatter();
+        private static readonly XmlOutputFormatter XmlFormatter = new XmlOutputFormatter("traceResult.xml");
 
         private static void Main()
         {
             Tracer.StartTrace();
 
             TestMethod1(10);
+            TestMethod6(300);
 
             Tracer.StopTrace();
 
@@ -61,6 +62,11 @@ namespace Tracer
             Thread.Sleep(sleepTime);
             var threads = new List<Thread>();
 
+            for (var i = 0; i < 5; i++)
+            {
+                TestMethod6(15);
+            }
+
             for (var i = 0; i < threadsCount; i++)
             {
                 var thread = new Thread(() => TestMethod5(10));
@@ -77,6 +83,15 @@ namespace Tracer
         }
 
         private static void TestMethod5(int sleepTime)
+        {
+            Tracer.StartTrace();
+
+            Thread.Sleep(sleepTime);
+
+            Tracer.StopTrace();
+        }
+
+        private static void TestMethod6(int sleepTime)
         {
             Tracer.StartTrace();
 

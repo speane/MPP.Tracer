@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Tracer.Classes
 {
-    internal class MethodTraceInfo
+    internal sealed class MethodTraceInfo
     {
         private readonly Stopwatch _timer;
 

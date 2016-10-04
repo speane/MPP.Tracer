@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Tracer.Classes
 {
-    internal class ThreadTraceInfo
+    internal sealed class ThreadTraceInfo
     {
         private readonly Stack<MethodTraceInfo> _callStack;
 
@@ -36,8 +36,8 @@ namespace Tracer.Classes
 
         internal void StopThreadTrace()
         {
-            _callStack.Peek().StopTrace();
-            _callStack.Pop();
+            //_callStack.Peek().StopTrace();
+            _callStack.Pop().StopTrace();
         }
     }
 }

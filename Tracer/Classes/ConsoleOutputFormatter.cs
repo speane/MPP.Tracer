@@ -3,7 +3,7 @@ using Tracer.Interfaces;
 
 namespace Tracer.Classes
 {
-    internal class ConsoleOutputFormatter : ITraceResultFormatter
+    internal sealed class ConsoleOutputFormatter : ITraceResultFormatter
     {
         public void Format(TraceResult traceResult)
         {

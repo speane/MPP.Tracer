@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Tracer.Classes
 {
-    public class TraceResult
+    public sealed class TraceResult
     {
         internal TraceResult()
         {
@@ -27,6 +27,7 @@ namespace Tracer.Classes
             {
                 throw new ArgumentException("invalid thread id");
             }
+
             threadsTraceInfo.StopThreadTrace();
         }
     }
