@@ -8,11 +8,7 @@ namespace TracerLab
 {
     public class TracerConsoleFormatter : ITraceFormatter
     {
-        public TracerConsoleFormatter()
-        {
-
-        }
-
+        
         public void Format(TraceResult traceResult)
         {
             if (traceResult == null)

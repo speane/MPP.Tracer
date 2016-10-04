@@ -10,7 +10,8 @@ namespace TracerLab
     {
 
         private static Tracer _instance; 
-        private static readonly object Lock = new object();
+        private static readonly object InstanceLock = new object();
+        private static readonly object CollectionAccessLock = new object();
         private static Dictionary<int, Stack<TracedMethodItem>> tracedThreads = new Dictionary<int,Stack<TracedMethodItem>>();
         private static TraceResult result = new TraceResult();
         public static Tracer getInstance
@@ -19,7 +20,7 @@ namespace TracerLab
             {
                 if (_instance == null)
                 {
-                    lock (Lock)
+                    lock (InstanceLock)
                     {
                         if (_instance == null)
                         {
@@ -44,7 +45,10 @@ namespace TracerLab
             int callDepth = 0;
             if (!tracedThreads.ContainsKey(threadId))
             {
-                tracedThreads.Add(threadId, new Stack<TracedMethodItem>());
+                lock (CollectionAccessLock) 
+                {
+                    tracedThreads.Add(threadId, new Stack<TracedMethodItem>());
+                }
             }
             else
             {

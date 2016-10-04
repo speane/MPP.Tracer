@@ -8,10 +8,10 @@ namespace TracerLab
 {
     public class TracedMethodItem
     {
-        internal readonly string name;
-        internal readonly string className;
-        internal readonly int argCount;
-        internal readonly int callDepth;
+        internal string name { get; set; }
+        internal string className { get; set; }
+        internal int argCount { get; set; }
+        internal int callDepth { get; set; }
         internal Stopwatch timer { get; set; }
         
 

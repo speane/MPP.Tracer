@@ -10,7 +10,7 @@ namespace TracerLab
 {
     public class TracerXmlFormatter : ITraceFormatter
     {
-        private string xmlFilePath;
+        private readonly string xmlFilePath;
         public TracerXmlFormatter(string filePath = "TraceResult.xml")
         {
             xmlFilePath = filePath;
@@ -69,12 +69,6 @@ namespace TracerLab
 
         private void Save(XDocument xmlDocument, string path)
         {
-           /* XmlWriterSettings settings = new XmlWriterSettings
-            {
-                Indent = true,
-                IndentChars = "\t",
-                OmitXmlDeclaration = true
-            }; */
             using (XmlWriter writer = XmlWriter.Create(path))
                 xmlDocument.Save(writer);
         }
