@@ -9,24 +9,24 @@ namespace TracerLab
     public class TraceResult
     {
         //id, callStack
-        public Dictionary<int, Stack<TracedMethodItem>> tracedThreads;
+        public Dictionary<int, Stack<TracedMethodItem>> TracedThreads { get; set; }
 
         public TraceResult()
         {
-            tracedThreads = new Dictionary<int, Stack<TracedMethodItem>>();
+            TracedThreads = new Dictionary<int, Stack<TracedMethodItem>>();
         }
 
         public void AddInnerMethod(int threadId, TracedMethodItem item)
         {
-            if (!tracedThreads.ContainsKey(threadId))
+            if (!TracedThreads.ContainsKey(threadId))
             {
                 Stack<TracedMethodItem> callstack = new  Stack<TracedMethodItem>();
                 callstack.Push(item);
-                tracedThreads.Add(threadId, callstack);
+                TracedThreads.Add(threadId, callstack);
             }
             else
             {
-                Stack<TracedMethodItem> callstack = tracedThreads[threadId];
+                Stack<TracedMethodItem> callstack = TracedThreads[threadId];
                 callstack.Push(item);
             }
         }

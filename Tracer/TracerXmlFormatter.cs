@@ -32,10 +32,10 @@ namespace TracerLab
         private XElement GetRootElement(TraceResult traceResult)
         {
             XElement root = new XElement("root");
-            foreach (int threadId in traceResult.tracedThreads.Keys)
+            foreach (int threadId in traceResult.TracedThreads.Keys)
             {
                 XElement threadEl = new XElement("thread");
-                Stack<TracedMethodItem> callStack = traceResult.tracedThreads[threadId];
+                Stack<TracedMethodItem> callStack = traceResult.TracedThreads[threadId];
                 long threadTime = 0;
                 XElement parentEl = threadEl;
                 Stack<XElement> parentStack = new Stack<XElement>();
@@ -46,9 +46,9 @@ namespace TracerLab
                     TracedMethodItem item = callStack.Pop();
                     XElement methodEl = GetMethodElement(item);
                     parentStack.Peek().Add(methodEl);
-                    if (item.callDepth > callDepth)
+                    if (item.CallDepth > callDepth)
                         parentStack.Push(methodEl);
-                    threadTime += item.timer.ElapsedMilliseconds;
+                    threadTime += item.Timer.ElapsedMilliseconds;
                 }
                 threadEl.Add(new XAttribute("id", threadId), new XAttribute("time", threadTime));
                 root.Add(threadEl);
@@ -60,10 +60,10 @@ namespace TracerLab
         private XElement GetMethodElement(TracedMethodItem item)
         {
             XElement methodEl = new XElement("method");
-            methodEl.Add(new XAttribute("class", item.className));
-            methodEl.Add(new XAttribute("name", item.name));
-            methodEl.Add(new XAttribute("arguments", item.argCount));
-            methodEl.Add(new XAttribute("time", item.timer.ElapsedMilliseconds));
+            methodEl.Add(new XAttribute("class", item.ClassName));
+            methodEl.Add(new XAttribute("name", item.Name));
+            methodEl.Add(new XAttribute("arguments", item.ArgCount));
+            methodEl.Add(new XAttribute("time", item.Timer.ElapsedMilliseconds));
             return methodEl;
         }
 

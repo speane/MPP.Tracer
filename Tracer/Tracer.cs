@@ -43,30 +43,35 @@ namespace TracerLab
         {
             int threadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
             int callDepth = 0;
-            if (!tracedThreads.ContainsKey(threadId))
+            lock (CollectionAccessLock)
             {
-                lock (CollectionAccessLock) 
+                if (!tracedThreads.ContainsKey(threadId))
                 {
+
                     tracedThreads.Add(threadId, new Stack<TracedMethodItem>());
+
                 }
+                else
+                {
+                    tracedThreads[threadId].Peek().Timer.Stop();
+                    callDepth = tracedThreads[threadId].Peek().CallDepth + 1;
+                }
+                TracedMethodItem tmi = CreateTracedMethodItem(callDepth);
+                tracedThreads[threadId].Push(tmi);
             }
-            else
-            {
-                tracedThreads[threadId].Peek().timer.Stop();
-                callDepth = tracedThreads[threadId].Peek().callDepth+1;
-            }
-            TracedMethodItem tmi = CreateTracedMethodItem(callDepth);
-            tracedThreads[threadId].Push(tmi);            
         }
 
         public void StopTrace()
         {
             int threadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
-            TracedMethodItem tmi = tracedThreads[threadId].Pop();
-            tmi.timer.Stop();
-            result.AddInnerMethod(threadId, tmi);
-            if (tracedThreads[threadId].Count != 0)
-                tracedThreads[threadId].Peek().timer.Start();
+            lock (CollectionAccessLock)
+            {
+                TracedMethodItem tmi = tracedThreads[threadId].Pop();
+                tmi.Timer.Stop();
+                result.AddInnerMethod(threadId, tmi);
+                if (tracedThreads[threadId].Count != 0)
+                    tracedThreads[threadId].Peek().Timer.Start();
+            }
         }
 
         public TracedMethodItem CreateTracedMethodItem(int callDepth)
