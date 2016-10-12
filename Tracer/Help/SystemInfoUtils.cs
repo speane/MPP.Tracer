@@ -23,19 +23,25 @@ namespace Tracer
 
         public string GetMethodName(int depth)
         {
-            MethodBase method = GetMethod(depth);
+            MethodBase method = GetMethod(depth + 1);
             return method.Name;
+        }
+
+        public string GetClassName(int depth)
+        {
+            MethodBase method = GetMethod(depth + 1);
+            return method.DeclaringType.Name;
         }
 
         public int GetMethodParamsAmount(int depth)
         {
-            MethodBase method = GetMethod(depth);
+            MethodBase method = GetMethod(depth + 1);
             return method.GetParameters().Count();
         }
 
         private MethodBase GetMethod(int depth)
         {
-            StackTrace trace = new StackTrace(depth + 1);
+            StackTrace trace = new StackTrace(depth);
             StackFrame frame = trace.GetFrame(0);
             return frame.GetMethod();
         }

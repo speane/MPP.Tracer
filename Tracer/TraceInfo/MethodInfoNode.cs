@@ -13,6 +13,8 @@ namespace Tracer
             ChildInfoNodes = new LinkedList<MethodInfoNode>();
         }
 
+        public string ClassName { get; set; }
+
         public string MethodName { get; set; }
 
         public int ParamsAmount { get; set; }

@@ -12,7 +12,7 @@ namespace Tracer
 
         private Stack<MethodInfoNode> methodStack = new Stack<MethodInfoNode>();
 
-        private LinkedList<MethodInfoNode> rootThreadMethodsList = new LinkedList<MethodInfoNode>();
+        public LinkedList<MethodInfoNode> RootThreadMethodsList = new LinkedList<MethodInfoNode>();
 
         public ThreadTraceInfo(long id)
         {
@@ -23,7 +23,7 @@ namespace Tracer
         {
             if (methodStack.Count == 0)
             {
-                rootThreadMethodsList.AddLast(methodNode);
+                RootThreadMethodsList.AddLast(methodNode);
             }
             else
             {

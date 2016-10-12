@@ -18,6 +18,7 @@ namespace Tracer
             methodNode.StartTime = systemUtils.GetCurrentTime();
             methodNode.StopTime = systemUtils.GetCurrentTime();
             methodNode.MethodName = systemUtils.GetMethodName(METHOD_DEPTH);
+            methodNode.ClassName = systemUtils.GetClassName(METHOD_DEPTH);
             methodNode.ParamsAmount = systemUtils.GetMethodParamsAmount(METHOD_DEPTH);
 
             return methodNode;
