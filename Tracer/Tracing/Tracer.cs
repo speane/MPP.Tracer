@@ -56,7 +56,13 @@ namespace Tracer
 
         public TraceResult GetTraceResult()
         {
-            return null;
+            TraceResultBuilder traceResultBuilder = new TraceResultBuilder();
+            TraceResult traceResult = new TraceResult();
+            lock (_syncRoot)
+            {
+                traceResult = traceResultBuilder.CreateTraceResult(traceInfo);
+            }
+            return traceResult;
         }
     }
 }
