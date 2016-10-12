@@ -40,15 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ITracer.cs" />
-    <Compile Include="MethodInfoNode.cs" />
-    <Compile Include="NotTheSameMethodException.cs" />
+    <Compile Include="TraceInfo\MethodInfoNodeBuilder.cs" />
+    <Compile Include="Tracing\ITracer.cs" />
+    <Compile Include="TraceInfo\MethodInfoNode.cs" />
+    <Compile Include="Exceptions\NotTheSameMethodException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FinishBeforeStartException.cs" />
-    <Compile Include="ThreadTraceInfo.cs" />
-    <Compile Include="TraceInfo.cs" />
-    <Compile Include="Tracer.cs" />
-    <Compile Include="TraceResult.cs" />
+    <Compile Include="Exceptions\FinishBeforeStartException.cs" />
+    <Compile Include="Help\SystemInfoUtils.cs" />
+    <Compile Include="TraceInfo\ThreadTraceInfo.cs" />
+    <Compile Include="TraceInfo\TraceInfo.cs" />
+    <Compile Include="Tracing\Tracer.cs" />
+    <Compile Include="Tracing\TraceResult.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

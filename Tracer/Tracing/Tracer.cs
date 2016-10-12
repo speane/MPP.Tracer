@@ -12,17 +12,15 @@ namespace Tracer
 
         public void StartTrace()
         {
-            long threadId = 0;
-            MethodInfoNode methodInfoNode = new MethodInfoNode();
-
+            MethodInfoNode methodInfoNode = MethodInfoNodeBuilder.CreateMethodInfoNode();
+            long threadId = SystemInfoUtils.GetThreadId();
             traceInfo.StartMethodNode(threadId, methodInfoNode);
         }
 
         public void StopTrace()
         {
-            long threadId = 0;
-            MethodInfoNode methodInfoNode = new MethodInfoNode();
-
+            MethodInfoNode methodInfoNode = MethodInfoNodeBuilder.CreateMethodInfoNode();
+            long threadId = SystemInfoUtils.GetThreadId();
             traceInfo.FinishMethodNode(threadId, methodInfoNode);
         }
 
