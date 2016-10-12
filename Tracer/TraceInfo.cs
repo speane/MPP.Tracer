@@ -10,10 +10,27 @@ namespace Tracer
     {
         private Dictionary<long, ThreadTraceInfo> threadTraceDictionary = new Dictionary<long, ThreadTraceInfo>();
 
-        public void StartMethodNode(MethodInfoNode methodInfoNode)
+        public void StartMethodNode(long threadId, MethodInfoNode methodInfoNode)
         {
-            ThreadTraceInfo threadTraceInfo = GetThreadTraceInfo(methodInfoNode.ThreadId);
-            threadTraceInfo.
+            ThreadTraceInfo threadTraceInfo = GetThreadTraceInfo(threadId);
+            if (threadTraceInfo == null)
+            {
+                threadTraceInfo = CreateThreadTraceInfo(threadId);
+            }
+            threadTraceInfo.StartMethodNode(methodInfoNode);
+        }
+
+        public void FinishMethodNode(long threadId, MethodInfoNode methodInfoNode)
+        {
+            ThreadTraceInfo threadTraceInfo = GetThreadTraceInfo(threadId);
+            if (threadTraceInfo != null)
+            {
+                threadTraceInfo.FinishLastMethod(methodInfoNode);
+            }
+            else
+            {
+                throw new FinishBeforeStartException();
+            }
         }
 
         private ThreadTraceInfo GetThreadTraceInfo(long threadId)
@@ -24,10 +41,15 @@ namespace Tracer
             }
             else
             {
-                ThreadTraceInfo traceInfo = new ThreadTraceInfo(threadId);
-                threadTraceDictionary.Add(threadId, traceInfo);
-                return traceInfo;
+                return null;
             }
+        }
+
+        private ThreadTraceInfo CreateThreadTraceInfo(long threadId)
+        {
+            ThreadTraceInfo traceInfo = new ThreadTraceInfo(threadId);
+            threadTraceDictionary.Add(threadId, traceInfo);
+            return traceInfo;
         }
     }
 }

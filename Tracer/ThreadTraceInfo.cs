@@ -10,7 +10,9 @@ namespace Tracer
     {
         public long ThreadId { get; set; }
 
-        private Stack<MethodInfoNode> methodStack;
+        private Stack<MethodInfoNode> methodStack = new Stack<MethodInfoNode>();
+
+        private LinkedList<MethodInfoNode> rootThreadMethodsList = new LinkedList<MethodInfoNode>();
 
         public ThreadTraceInfo(long id)
         {
@@ -19,7 +21,41 @@ namespace Tracer
 
         public void StartMethodNode(MethodInfoNode methodNode)
         {
+            if (methodStack.Count == 0)
+            {
+                rootThreadMethodsList.AddLast(methodNode);
+            }
+            else
+            {
+                methodStack.Peek().ChildInfoNodes.AddLast(methodNode);
+            }
+            methodStack.Push(methodNode);
+        }
 
+        public void FinishLastMethod(MethodInfoNode methodNode)
+        {
+            if (methodStack.Count != 0)
+            {
+                MethodInfoNode lastMethodNode = methodStack.Last();
+                if (SameMethods(methodNode, lastMethodNode)) {
+                    lastMethodNode.StopTime = methodNode.StopTime;
+                }
+                else
+                {
+                    throw new NotTheSameMethodException();
+                }
+            }
+            else
+            {
+                throw new FinishBeforeStartException();
+            }
+        }
+
+        private Boolean SameMethods(MethodInfoNode firstNode, MethodInfoNode secondNode)
+        {
+            return (firstNode.MethodName != null) && (secondNode != null) &&
+                    !firstNode.MethodName.Equals(secondNode.MethodName) &&
+                    (firstNode.ParamsAmount == secondNode.ParamsAmount);
         }
     }
 }

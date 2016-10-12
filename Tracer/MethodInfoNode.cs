@@ -8,14 +8,19 @@ namespace Tracer
 {
     internal class MethodInfoNode
     {
-        public long ThreadId { get; set; }
+        public MethodInfoNode()
+        {
+            ChildInfoNodes = new LinkedList<MethodInfoNode>();
+        }
 
         public string MethodName { get; set; }
 
-        public int MethodParamsAmount { get; set; }
+        public int ParamsAmount { get; set; }
 
         public DateTime StartTime { get; set; }
 
         public DateTime StopTime { get; set; }
+
+        public LinkedList<MethodInfoNode> ChildInfoNodes { get; }
     }
 }
