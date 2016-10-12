@@ -17,7 +17,9 @@ namespace Tracer.Tracing
         {
             TraceResultHeadNode headNode = new TraceResultHeadNode();
             headNode.ThreadId = threadTraceInfo.ThreadId;
-            headNode
+            headNode.ChildNodes = CreateChildNodeList(threadTraceInfo.RootThreadMethodsList);
+            headNode.ExecutionTime = GetThreadExecutionTime(threadTraceInfo);
+            return headNode;
         }
 
         private LinkedList<TraceResultNode> CreateChildNodeList(LinkedList<MethodInfoNode> methodInfoNodes)
@@ -46,6 +48,13 @@ namespace Tracer.Tracing
             tempResultNode.ParamsAmount = infoNode.ParamsAmount;
 
             return tempResultNode;
+        }
+
+        private double GetThreadExecutionTime(ThreadTraceInfo threadTraceInfo)
+        {
+            MethodInfoNode firstMethod = threadTraceInfo.RootThreadMethodsList.First();
+            MethodInfoNode lastMethod = threadTraceInfo.RootThreadMethodsList.Last();
+            return (lastMethod.StopTime - firstMethod.StartTime).Milliseconds;
         }
     }
 }
