@@ -8,14 +8,39 @@ namespace Tracer
 {
     class Tracer : ITracer
     {
+        private static Tracer instance;
+        private static readonly object _syncRoot = new object();
         private TraceInfo traceInfo = new TraceInfo();
+
+        public static Tracer Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock(_syncRoot)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new Tracer();
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
+
+        private Tracer() { }
 
         public void StartTrace()
         {
             SystemInfoUtils systemUtils = new SystemInfoUtils();
             MethodInfoNode methodInfoNode = MethodInfoNodeBuilder.CreateMethodInfoNode();
             long threadId = systemUtils.GetThreadId();
-            traceInfo.StartMethodNode(threadId, methodInfoNode);
+            lock (_syncRoot)
+            {
+                traceInfo.StartMethodNode(threadId, methodInfoNode);
+            }
         }
 
         public void StopTrace()
@@ -23,7 +48,10 @@ namespace Tracer
             SystemInfoUtils systemUtils = new SystemInfoUtils();
             MethodInfoNode methodInfoNode = MethodInfoNodeBuilder.CreateMethodInfoNode();
             long threadId = systemUtils.GetThreadId();
-            traceInfo.FinishMethodNode(threadId, methodInfoNode);
+            lock (_syncRoot)
+            {
+                traceInfo.FinishMethodNode(threadId, methodInfoNode);
+            }
         }
 
         public TraceResult GetTraceResult()
