@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tracer.Tracing
+namespace Tracer
 {
-    internal class TraceResultNode
+    public class TraceResultNode
     {
         public string MethodName { get; set; }
         public string ClassName { get; set; }

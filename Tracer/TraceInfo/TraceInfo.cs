@@ -8,7 +8,12 @@ namespace Tracer
 {
     internal class TraceInfo
     {
-        private Dictionary<long, ThreadTraceInfo> threadTraceDictionary = new Dictionary<long, ThreadTraceInfo>();
+        public Dictionary<long, ThreadTraceInfo> ThreadTraceDictionary { get; }
+
+        public TraceInfo()
+        {
+            ThreadTraceDictionary = new Dictionary<long, ThreadTraceInfo>();
+        }
 
         public void StartMethodNode(long threadId, MethodInfoNode methodInfoNode)
         {
@@ -35,9 +40,9 @@ namespace Tracer
 
         private ThreadTraceInfo GetThreadTraceInfo(long threadId)
         {
-            if (threadTraceDictionary.ContainsKey(threadId))
+            if (ThreadTraceDictionary.ContainsKey(threadId))
             {
-                return threadTraceDictionary[threadId];
+                return ThreadTraceDictionary[threadId];
             }
             else
             {
@@ -48,7 +53,7 @@ namespace Tracer
         private ThreadTraceInfo CreateThreadTraceInfo(long threadId)
         {
             ThreadTraceInfo traceInfo = new ThreadTraceInfo(threadId);
-            threadTraceDictionary.Add(threadId, traceInfo);
+            ThreadTraceDictionary.Add(threadId, traceInfo);
             return traceInfo;
         }
     }

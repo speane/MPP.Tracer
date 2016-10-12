@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tracer
 {
-    class Tracer : ITracer
+    public class Tracer : ITracer
     {
         private static Tracer instance;
         private static readonly object _syncRoot = new object();

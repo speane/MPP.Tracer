@@ -10,7 +10,17 @@ namespace Tracer
     {
         public TraceResult CreateTraceResult(TraceInfo traceInfo)
         {
-            return null;
+            TraceResult traceResult = new TraceResult();
+            LinkedList<TraceResultHeadNode> headNodes = new LinkedList<TraceResultHeadNode>();
+
+            foreach (long tempThreadId in traceInfo.ThreadTraceDictionary.Keys)
+            {
+                headNodes.AddLast(CreateHeadNode(traceInfo.ThreadTraceDictionary[tempThreadId]));
+            }
+
+            traceResult.RootNodes = headNodes;
+
+            return traceResult;
         } 
 
         private TraceResultHeadNode CreateHeadNode(ThreadTraceInfo threadTraceInfo)

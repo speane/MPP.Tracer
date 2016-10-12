@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tracer.Tracing
+namespace Tracer
 {
-    internal class TraceResultHeadNode
+    public class TraceResultHeadNode
     {
         public long ThreadId { get; set; }
         public double ExecutionTime { get; set; }
