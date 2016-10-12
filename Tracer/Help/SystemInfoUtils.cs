@@ -2,25 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace Tracer
 {
     internal class SystemInfoUtils
     {
-        public static long GetThreadId()
+        public DateTime GetCurrentTime()
         {
-            return 0;
+            return DateTime.Now;
         }
 
-        public static string GetParentMethodName()
+        public long GetThreadId()
         {
-            return null;
+            return Thread.CurrentThread.ManagedThreadId;
         }
 
-        public static int GetParentMethodParamsAmount()
+        public string GetMethodName(int depth)
         {
-            return 0;
+            MethodBase method = GetMethod(depth);
+            return method.Name;
+        }
+
+        public int GetMethodParamsAmount(int depth)
+        {
+            MethodBase method = GetMethod(depth);
+            return method.GetParameters().Count();
+        }
+
+        private MethodBase GetMethod(int depth)
+        {
+            StackTrace trace = new StackTrace(depth + 1);
+            StackFrame frame = trace.GetFrame(0);
+            return frame.GetMethod();
         }
     }
 }
