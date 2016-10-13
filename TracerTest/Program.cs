@@ -23,6 +23,7 @@ namespace TracerTest
                 MethodThree();
                 Thread thread = SingleThreadMethod();
                 List<Thread> threads = MultiThreadMethod(3, 100);
+
                 tracer.StopTrace();
 
                 thread.Join();
