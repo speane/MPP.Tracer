@@ -51,13 +51,14 @@ namespace Tracer
 
         private TraceResultNode CreateTraceResultNode(MethodInfoNode infoNode)
         {
-            TraceResultNode tempResultNode = new TraceResultNode();
-            tempResultNode.ExecutionTime = (infoNode.StopTime - infoNode.StartTime).TotalMilliseconds;
-            tempResultNode.MethodName = infoNode.MethodName;
-            tempResultNode.ClassName = infoNode.ClassName;
-            tempResultNode.ParamsAmount = infoNode.ParamsAmount;
+            TraceResultNode resultNode = new TraceResultNode();
+            resultNode.ExecutionTime = (infoNode.StopTime - infoNode.StartTime).TotalMilliseconds;
+            resultNode.MethodName = infoNode.MethodName;
+            resultNode.ClassName = infoNode.ClassName;
+            resultNode.ParamsAmount = infoNode.ParamsAmount;
+            resultNode.ChildNodes = CreateChildNodeList(infoNode.ChildInfoNodes);
 
-            return tempResultNode;
+            return resultNode;
         }
 
         private double GetThreadExecutionTime(ThreadTraceInfo threadTraceInfo)

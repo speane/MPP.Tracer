@@ -10,7 +10,7 @@ namespace Tracer
     {
         public static MethodInfoNode CreateMethodInfoNode()
         {
-            int METHOD_DEPTH = 2;
+            int METHOD_DEPTH = 3;
 
             SystemInfoUtils systemUtils = new SystemInfoUtils();
             MethodInfoNode methodNode = new MethodInfoNode();

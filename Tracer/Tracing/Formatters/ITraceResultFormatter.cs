@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tracer
+namespace Tracer.Tracing.Formatters
 {
-    public class NotTheSameMethodException : Exception
+    public interface ITraceResultFormatter
     {
+        void Format(TraceResult traceResult);
     }
 }

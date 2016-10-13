@@ -36,7 +36,7 @@ namespace Tracer
         {
             if (methodStack.Count != 0)
             {
-                MethodInfoNode lastMethodNode = methodStack.Last();
+                MethodInfoNode lastMethodNode = methodStack.Pop();
                 if (SameMethods(methodNode, lastMethodNode)) {
                     lastMethodNode.StopTime = methodNode.StopTime;
                 }
@@ -53,8 +53,8 @@ namespace Tracer
 
         private Boolean SameMethods(MethodInfoNode firstNode, MethodInfoNode secondNode)
         {
-            return (firstNode.MethodName != null) && (secondNode != null) &&
-                    !firstNode.MethodName.Equals(secondNode.MethodName) &&
+            return (firstNode.MethodName != null) && (secondNode.MethodName != null) &&
+                    firstNode.MethodName.Equals(secondNode.MethodName) &&
                     (firstNode.ParamsAmount == secondNode.ParamsAmount);
         }
     }

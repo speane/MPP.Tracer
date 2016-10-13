@@ -12,6 +12,6 @@ namespace Tracer
         public string ClassName { get; set; }
         public double ExecutionTime { get; set; }
         public int ParamsAmount { get; set; }
-        public LinkedList<TraceResultNode> childNodes { get; set; }
+        public LinkedList<TraceResultNode> ChildNodes { get; set; }
     }
 }
