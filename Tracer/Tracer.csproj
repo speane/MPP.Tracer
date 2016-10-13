@@ -43,6 +43,7 @@
     <Compile Include="TraceInfo\MethodInfoNodeBuilder.cs" />
     <Compile Include="Tracing\Formatters\ConsoleTraceResultFormatter.cs" />
     <Compile Include="Tracing\Formatters\ITraceResultFormatter.cs" />
+    <Compile Include="Tracing\Formatters\XmlTraceResultFormatter.cs" />
     <Compile Include="Tracing\ITracer.cs" />
     <Compile Include="TraceInfo\MethodInfoNode.cs" />
     <Compile Include="Exceptions\NotTheSameMethodException.cs" />

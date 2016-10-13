@@ -28,7 +28,7 @@ namespace Tracer
             TraceResultHeadNode headNode = new TraceResultHeadNode();
             headNode.ThreadId = threadTraceInfo.ThreadId;
             headNode.ChildNodes = CreateChildNodeList(threadTraceInfo.RootThreadMethodsList);
-            headNode.ExecutionTime = GetThreadExecutionTime(threadTraceInfo);
+            headNode.ExecutionTime = Math.Round(GetThreadExecutionTime(threadTraceInfo));
             return headNode;
         }
 
@@ -52,7 +52,7 @@ namespace Tracer
         private TraceResultNode CreateTraceResultNode(MethodInfoNode infoNode)
         {
             TraceResultNode resultNode = new TraceResultNode();
-            resultNode.ExecutionTime = (infoNode.StopTime - infoNode.StartTime).TotalMilliseconds;
+            resultNode.ExecutionTime = Math.Round((infoNode.StopTime - infoNode.StartTime).TotalMilliseconds);
             resultNode.MethodName = infoNode.MethodName;
             resultNode.ClassName = infoNode.ClassName;
             resultNode.ParamsAmount = infoNode.ParamsAmount;

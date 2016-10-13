@@ -10,7 +10,6 @@ namespace Tracer.Tracing.Formatters
     {
         public void Format(TraceResult traceResult)
         {
-            Console.WriteLine("root");
             foreach (TraceResultHeadNode tempHeadNode in traceResult.RootNodes)
             {
                 PrintHeadNode(tempHeadNode);
@@ -19,7 +18,7 @@ namespace Tracer.Tracing.Formatters
 
         private void PrintHeadNode(TraceResultHeadNode headNode)
         {
-            Console.WriteLine("thread id={0} time={1}ms", headNode.ThreadId, Math.Round(headNode.ExecutionTime));
+            Console.WriteLine("thread id={0} time={1}ms", headNode.ThreadId, headNode.ExecutionTime);
             if (headNode.ChildNodes != null)
             {
                 foreach (TraceResultNode tempChildNode in headNode.ChildNodes) {
@@ -31,7 +30,7 @@ namespace Tracer.Tracing.Formatters
         private void PrintNode(TraceResultNode node, int depth)
         {
             Console.WriteLine("{0} method name={1} class={2} time={3}ms params={4}", GetIndentLine(depth), 
-                node.MethodName, node.ClassName, Math.Round(node.ExecutionTime), node.ParamsAmount);
+                node.MethodName, node.ClassName, node.ExecutionTime, node.ParamsAmount);
             if (node.ChildNodes != null)
             {
                 foreach (TraceResultNode tempChildNode in node.ChildNodes)
@@ -44,7 +43,7 @@ namespace Tracer.Tracing.Formatters
         private string GetIndentLine(int length)
         {
             string INDENT_SYMBOL = "-";
-            string indentString = "";
+            string indentString = "<";
             for (int i = 0; i < length; i++)
             {
                 indentString += INDENT_SYMBOL;

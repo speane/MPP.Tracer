@@ -15,23 +15,124 @@ namespace TracerTest
 
         static void Main(string[] args)
         {
-            ITracer tracer = Tracer.Tracer.Instance;
-            tracer.StartTrace();
-            MethodOne();
-            tracer.StopTrace();
-            TraceResult traceResult = tracer.GetTraceResult();
+            try
+            {
+                tracer.StartTrace();
 
-            ITraceResultFormatter formatter = new ConsoleTraceResultFormatter();
-            formatter.Format(traceResult);
+                MethodOne();
+                MethodThree();
+                Thread thread = SingleThreadMethod();
+                List<Thread> threads = MultiThreadMethod(3, 100);
+                tracer.StopTrace();
 
-            Console.ReadLine();
+                thread.Join();
+                foreach (Thread tempThread in threads)
+                {
+                    tempThread.Join();
+                }
+
+                TraceResult traceResult = tracer.GetTraceResult();
+
+                PrintResult(traceResult);
+
+                Console.ReadLine();
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("Error occured during program execution: {0}", e);
+            }
         }
 
-        static void MethodOne()
+        private static void PrintResult(TraceResult traceResult)
+        {
+            ITraceResultFormatter formatter = null;
+
+            formatter = new XmlTraceResultFormatter("result.xml");
+            formatter.Format(traceResult);
+
+
+            formatter = new ConsoleTraceResultFormatter();
+            formatter.Format(traceResult);
+        }
+
+        private static void MethodOne()
         {
             tracer.StartTrace();
+
             Thread.Sleep(100);
+
             tracer.StopTrace();
+        }
+
+        private static void MethodTwo()
+        {
+            tracer.StartTrace();
+
+            Thread.Sleep(200);
+            MethodOne();
+
+            tracer.StopTrace();
+        }
+
+        private static void MethodThree()
+        {
+            tracer.StartTrace();
+
+            Thread.Sleep(300);
+            MethodOne();
+            MethodTwo();
+
+            tracer.StopTrace();
+        }
+
+        private static void SpecialMethod()
+        {
+            MethodTwo();
+            MethodTwo();
+        }
+
+        private static Thread SingleThreadMethod()
+        {
+            Thread newThread = new Thread(MethodTwo);
+
+            newThread.Start();
+
+            return newThread;
+        }
+
+        private static List<Thread> MultiThreadMethod(int count, int wait)
+        {
+            tracer.StartTrace();
+
+            Thread.Sleep(wait);
+
+            List<Thread> threads = new List<Thread>();
+            Random random = new Random();
+            for (int i = 0; i < count; i++)
+            {
+                int methodNumber = random.Next(5);
+                Thread tempThread;
+                switch (methodNumber)
+                {
+                    case 0:
+                        tempThread = new Thread(MethodOne);
+                        break;
+                    case 1:
+                        tempThread = new Thread(MethodTwo);
+                        break;
+                    case 2:
+                        tempThread = new Thread(MethodThree);
+                        break;
+                    default:
+                        tempThread = new Thread(SpecialMethod);
+                        break;
+                }
+                tempThread.Start();
+                threads.Add(tempThread);
+            }
+
+            tracer.StopTrace();
+            return threads;
         }
     }
 }
