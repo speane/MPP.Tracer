@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using Tracer;
 using Tracer.Tracing.Formatters;
+
 using System.Threading;
 
 namespace TracerTest
@@ -13,13 +12,15 @@ namespace TracerTest
     {
         private static ITracer tracer = Tracer.Tracer.Instance;
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             try
             {
                 tracer.StartTrace();
 
                 MethodOne();
+                MethodThree();
+                MethodThree();
                 MethodThree();
                 Thread thread = SingleThreadMethod();
                 List<Thread> threads = MultiThreadMethod(3, 100);

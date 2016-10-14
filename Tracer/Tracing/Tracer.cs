@@ -46,8 +46,8 @@ namespace Tracer
         public void StopTrace()
         {
             SystemInfoUtils systemUtils = new SystemInfoUtils();
-            MethodInfoNode methodInfoNode = MethodInfoNodeBuilder.CreateMethodInfoNode();
             long threadId = systemUtils.GetThreadId();
+            MethodInfoNode methodInfoNode = MethodInfoNodeBuilder.CreateMethodInfoNode();
             lock (_syncRoot)
             {
                 traceInfo.FinishMethodNode(threadId, methodInfoNode);
@@ -57,7 +57,7 @@ namespace Tracer
         public TraceResult GetTraceResult()
         {
             TraceResultBuilder traceResultBuilder = new TraceResultBuilder();
-            TraceResult traceResult = new TraceResult();
+            TraceResult traceResult;
             lock (_syncRoot)
             {
                 traceResult = traceResultBuilder.CreateTraceResult(traceInfo);

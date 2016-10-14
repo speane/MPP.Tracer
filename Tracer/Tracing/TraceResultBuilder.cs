@@ -65,7 +65,7 @@ namespace Tracer
         {
             MethodInfoNode firstMethod = threadTraceInfo.RootThreadMethodsList.First();
             MethodInfoNode lastMethod = threadTraceInfo.RootThreadMethodsList.Last();
-            return (lastMethod.StopTime - firstMethod.StartTime).Milliseconds;
-        }
+            return Math.Round((lastMethod.StopTime - firstMethod.StartTime).TotalMilliseconds);
+        }        
     }
 }
