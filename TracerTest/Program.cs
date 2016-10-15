@@ -24,6 +24,7 @@ namespace TracerTest
                 MethodThree();
                 Thread thread = SingleThreadMethod();
                 List<Thread> threads = MultiThreadMethod(3, 100);
+                FFFMethod();
 
                 tracer.StopTrace();
 
@@ -41,20 +42,33 @@ namespace TracerTest
             }
             catch (Exception e)
             {
-                Console.Error.WriteLine("Error occured during program execution: {0}", e);
+                Console.Error.WriteLine($"Error occured during program execution: {e}");
             }
         }
 
         private static void PrintResult(TraceResult traceResult)
         {
+            string XML_FILE_NAME = "result.xml";
             ITraceResultFormatter formatter = null;
 
-            formatter = new XmlTraceResultFormatter("result.xml");
+            formatter = new XmlTraceResultFormatter(XML_FILE_NAME);
             formatter.Format(traceResult);
 
 
             formatter = new ConsoleTraceResultFormatter();
             formatter.Format(traceResult);
+        }
+
+        private static void FFFMethod()
+        {
+            tracer.StartTrace();
+
+            for (int i = 0; i < 7; i++)
+            {
+                MethodTwo();
+            }
+
+            tracer.StopTrace();
         }
 
         private static void MethodOne()

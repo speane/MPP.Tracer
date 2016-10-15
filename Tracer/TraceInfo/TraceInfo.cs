@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Tracer
 {
@@ -17,11 +13,7 @@ namespace Tracer
 
         public void StartMethodNode(long threadId, MethodInfoNode methodInfoNode)
         {
-            ThreadTraceInfo threadTraceInfo = GetThreadTraceInfo(threadId);
-            if (threadTraceInfo == null)
-            {
-                threadTraceInfo = CreateThreadTraceInfo(threadId);
-            }
+            ThreadTraceInfo threadTraceInfo = GetThreadTraceInfo(threadId) ?? CreateThreadTraceInfo(threadId);
             threadTraceInfo.StartMethodNode(methodInfoNode);
         }
 
@@ -40,14 +32,7 @@ namespace Tracer
 
         private ThreadTraceInfo GetThreadTraceInfo(long threadId)
         {
-            if (ThreadTraceDictionary.ContainsKey(threadId))
-            {
-                return ThreadTraceDictionary[threadId];
-            }
-            else
-            {
-                return null;
-            }
+            return ThreadTraceDictionary.ContainsKey(threadId) ? ThreadTraceDictionary[threadId] : null;
         }
 
         private ThreadTraceInfo CreateThreadTraceInfo(long threadId)

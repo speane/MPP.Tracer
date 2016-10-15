@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Tracer
 {
@@ -10,7 +6,7 @@ namespace Tracer
     {
         public long ThreadId { get; set; }
 
-        private Stack<MethodInfoNode> methodStack = new Stack<MethodInfoNode>();
+        private readonly Stack<MethodInfoNode> _methodStack = new Stack<MethodInfoNode>();
 
         public LinkedList<MethodInfoNode> RootThreadMethodsList = new LinkedList<MethodInfoNode>();
 
@@ -21,22 +17,22 @@ namespace Tracer
 
         public void StartMethodNode(MethodInfoNode methodNode)
         {
-            if (methodStack.Count == 0)
+            if (_methodStack.Count == 0)
             {
                 RootThreadMethodsList.AddLast(methodNode);
             }
             else
             {
-                methodStack.Peek().ChildInfoNodes.AddLast(methodNode);
+                _methodStack.Peek().ChildInfoNodes.AddLast(methodNode);
             }
-            methodStack.Push(methodNode);
+            _methodStack.Push(methodNode);
         }
 
         public void FinishLastMethod(MethodInfoNode methodNode)
         {
-            if (methodStack.Count != 0)
+            if (_methodStack.Count != 0)
             {
-                MethodInfoNode lastMethodNode = methodStack.Pop();
+                MethodInfoNode lastMethodNode = _methodStack.Pop();
                 if (SameMethods(methodNode, lastMethodNode)) {
                     lastMethodNode.StopTime = methodNode.StopTime;
                 }
@@ -51,7 +47,7 @@ namespace Tracer
             }
         }
 
-        private Boolean SameMethods(MethodInfoNode firstNode, MethodInfoNode secondNode)
+        private bool SameMethods(MethodInfoNode firstNode, MethodInfoNode secondNode)
         {
             return (firstNode.MethodName != null) && (secondNode.MethodName != null) &&
                     firstNode.MethodName.Equals(secondNode.MethodName) &&

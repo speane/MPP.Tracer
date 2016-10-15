@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tracer
 {
@@ -25,43 +23,41 @@ namespace Tracer
 
         private TraceResultHeadNode CreateHeadNode(ThreadTraceInfo threadTraceInfo)
         {
-            TraceResultHeadNode headNode = new TraceResultHeadNode();
-            headNode.ThreadId = threadTraceInfo.ThreadId;
-            headNode.ChildNodes = CreateChildNodeList(threadTraceInfo.RootThreadMethodsList);
-            headNode.ExecutionTime = Math.Round(GetThreadExecutionTime(threadTraceInfo));
+            TraceResultHeadNode headNode = new TraceResultHeadNode
+            {
+                ThreadId = threadTraceInfo.ThreadId,
+                ChildNodes = CreateChildNodeList(threadTraceInfo.RootThreadMethodsList),
+                ExecutionTime = Math.Round(GetThreadExecutionTime(threadTraceInfo))
+            };
             return headNode;
         }
 
-        private LinkedList<TraceResultNode> CreateChildNodeList(LinkedList<MethodInfoNode> methodInfoNodes)
+        private LinkedList<TraceResultNode> CreateChildNodeList(ICollection<MethodInfoNode> methodInfoNodes)
         {
-            if (methodInfoNodes.Count != 0)
+            if (methodInfoNodes.Count == 0) return null;
+            LinkedList<TraceResultNode> resultNodes = new LinkedList<TraceResultNode>();
+            foreach (MethodInfoNode tempInfoNode in methodInfoNodes)
             {
-                LinkedList<TraceResultNode> resultNodes = new LinkedList<TraceResultNode>();
-                foreach (MethodInfoNode tempInfoNode in methodInfoNodes)
-                {
-                    resultNodes.AddLast(CreateTraceResultNode(tempInfoNode));
-                }
-                return resultNodes;
+                resultNodes.AddLast(CreateTraceResultNode(tempInfoNode));
             }
-            else
-            {
-                return null;
-            }
+            return resultNodes;
         }
 
         private TraceResultNode CreateTraceResultNode(MethodInfoNode infoNode)
         {
-            TraceResultNode resultNode = new TraceResultNode();
-            resultNode.ExecutionTime = Math.Round((infoNode.StopTime - infoNode.StartTime).TotalMilliseconds);
-            resultNode.MethodName = infoNode.MethodName;
-            resultNode.ClassName = infoNode.ClassName;
-            resultNode.ParamsAmount = infoNode.ParamsAmount;
-            resultNode.ChildNodes = CreateChildNodeList(infoNode.ChildInfoNodes);
+            TraceResultNode resultNode = new TraceResultNode
+            {
+                ExecutionTime = Math.Round((infoNode.StopTime - infoNode.StartTime).TotalMilliseconds),
+                MethodName = infoNode.MethodName,
+                ClassName = infoNode.ClassName,
+                ParamsAmount = infoNode.ParamsAmount,
+                ChildNodes = CreateChildNodeList(infoNode.ChildInfoNodes)
+            };
 
             return resultNode;
         }
 
-        private double GetThreadExecutionTime(ThreadTraceInfo threadTraceInfo)
+        private static double GetThreadExecutionTime(ThreadTraceInfo threadTraceInfo)
         {
             MethodInfoNode firstMethod = threadTraceInfo.RootThreadMethodsList.First();
             MethodInfoNode lastMethod = threadTraceInfo.RootThreadMethodsList.Last();

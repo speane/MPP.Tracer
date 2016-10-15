@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace Tracer.Tracing.Formatters
 {
     public class XmlTraceResultFormatter : ITraceResultFormatter
     {
-        private string filename;
+        private readonly string _filename;
 
         public XmlTraceResultFormatter(string filename)
         {
-            this.filename = filename;
+            _filename = filename;
         }
 
         public void Format(TraceResult traceResult)
@@ -22,10 +18,10 @@ namespace Tracer.Tracing.Formatters
             XElement rootElement = new XElement("root");
             AddHeadNodes(rootElement, traceResult.RootNodes);
             document.Add(rootElement);
-            document.Save(filename);
+            document.Save(_filename);
         }
 
-        private void AddHeadNodes(XElement rootElement, LinkedList<TraceResultHeadNode> headNodes)
+        private void AddHeadNodes(XContainer rootElement, IEnumerable<TraceResultHeadNode> headNodes)
         {
             foreach (TraceResultHeadNode tempHeadNode in headNodes)
             {
@@ -36,7 +32,7 @@ namespace Tracer.Tracing.Formatters
         private XElement CreateThreadXmlElement(TraceResultHeadNode headNode)
         {
             XElement threadElement = new XElement("thread");
-            threadElement.SetAttributeValue("time", headNode.ExecutionTime.ToString() + "ms");
+            threadElement.SetAttributeValue("time", $"{headNode.ExecutionTime}ms");
             threadElement.SetAttributeValue("id", headNode.ThreadId);
 
             AddChildElements(threadElement, headNode.ChildNodes);
@@ -49,7 +45,7 @@ namespace Tracer.Tracing.Formatters
             XElement methodElement = new XElement("method");
             methodElement.SetAttributeValue("params", node.ParamsAmount);
             methodElement.SetAttributeValue("class", node.ClassName);
-            methodElement.SetAttributeValue("time", node.ExecutionTime.ToString() + "ms");
+            methodElement.SetAttributeValue("time", $"{node.ExecutionTime}ms");
             methodElement.SetAttributeValue("name", node.MethodName);
 
             if (node.ChildNodes != null)
@@ -60,7 +56,7 @@ namespace Tracer.Tracing.Formatters
             return methodElement;
         }
 
-        private void AddChildElements(XElement parentElement, LinkedList<TraceResultNode> childNodes)
+        private void AddChildElements(XContainer parentElement, IEnumerable<TraceResultNode> childNodes)
         {
             foreach (TraceResultNode tempNode in childNodes)
             {

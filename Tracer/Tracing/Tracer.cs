@@ -1,32 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Tracer
+﻿namespace Tracer
 {
     public class Tracer : ITracer
     {
-        private static Tracer instance;
-        private static readonly object _syncRoot = new object();
-        private TraceInfo traceInfo = new TraceInfo();
+        private static Tracer _instance;
+        private static readonly object SyncRoot = new object();
+        private readonly TraceInfo _traceInfo = new TraceInfo();
 
         public static Tracer Instance
         {
             get
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    lock(_syncRoot)
+                    lock(SyncRoot)
                     {
-                        if (instance == null)
+                        if (_instance == null)
                         {
-                            instance = new Tracer();
+                            _instance = new Tracer();
                         }
                     }
                 }
-                return instance;
+                return _instance;
             }
         }
 
@@ -37,9 +31,9 @@ namespace Tracer
             SystemInfoUtils systemUtils = new SystemInfoUtils();
             MethodInfoNode methodInfoNode = MethodInfoNodeBuilder.CreateMethodInfoNode();
             long threadId = systemUtils.GetThreadId();
-            lock (_syncRoot)
+            lock (SyncRoot)
             {
-                traceInfo.StartMethodNode(threadId, methodInfoNode);
+                _traceInfo.StartMethodNode(threadId, methodInfoNode);
             }
         }
 
@@ -48,9 +42,9 @@ namespace Tracer
             SystemInfoUtils systemUtils = new SystemInfoUtils();
             long threadId = systemUtils.GetThreadId();
             MethodInfoNode methodInfoNode = MethodInfoNodeBuilder.CreateMethodInfoNode();
-            lock (_syncRoot)
+            lock (SyncRoot)
             {
-                traceInfo.FinishMethodNode(threadId, methodInfoNode);
+                _traceInfo.FinishMethodNode(threadId, methodInfoNode);
             }
         }
 
@@ -58,9 +52,9 @@ namespace Tracer
         {
             TraceResultBuilder traceResultBuilder = new TraceResultBuilder();
             TraceResult traceResult;
-            lock (_syncRoot)
+            lock (SyncRoot)
             {
-                traceResult = traceResultBuilder.CreateTraceResult(traceInfo);
+                traceResult = traceResultBuilder.CreateTraceResult(_traceInfo);
             }
             return traceResult;
         }

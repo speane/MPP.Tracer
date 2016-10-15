@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -30,7 +27,7 @@ namespace Tracer
         public string GetClassName(int depth)
         {
             MethodBase method = GetMethod(depth + 1);
-            return method.DeclaringType.Name;
+            return method.DeclaringType?.Name;
         }
 
         public int GetMethodParamsAmount(int depth)
