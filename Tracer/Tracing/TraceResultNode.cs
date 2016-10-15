@@ -2,7 +2,7 @@
 
 namespace Tracer
 {
-    public class TraceResultNode
+    public sealed class TraceResultNode
     {
         public string MethodName { get; set; }
         public string ClassName { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace Tracer
 {
-    internal class MethodInfoNodeBuilder
+    internal sealed class MethodInfoNodeBuilder
     {
         public static MethodInfoNode CreateMethodInfoNode()
         {

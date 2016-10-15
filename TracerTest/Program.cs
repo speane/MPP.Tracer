@@ -8,9 +8,9 @@ using System.Threading;
 
 namespace TracerTest
 {
-    class Program
+    public sealed class Program
     {
-        private static ITracer tracer = Tracer.Tracer.Instance;
+        private static readonly ITracer tracer = Tracer.Tracer.Instance;
 
         public static void Main(string[] args)
         {

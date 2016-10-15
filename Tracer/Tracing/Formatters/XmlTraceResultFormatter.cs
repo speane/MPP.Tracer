@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace Tracer.Tracing.Formatters
 {
-    public class XmlTraceResultFormatter : ITraceResultFormatter
+    public sealed class XmlTraceResultFormatter : ITraceResultFormatter
     {
         private readonly string _filename;
 

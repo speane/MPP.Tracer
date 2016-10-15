@@ -2,7 +2,7 @@
 
 namespace Tracer
 {
-    internal class ThreadTraceInfo
+    internal sealed class ThreadTraceInfo
     {
         public long ThreadId { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace Tracer
 {
-    internal class TraceInfo
+    internal sealed class TraceInfo
     {
         public Dictionary<long, ThreadTraceInfo> ThreadTraceDictionary { get; }
 

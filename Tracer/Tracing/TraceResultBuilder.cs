@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Tracer
 {
-    internal class TraceResultBuilder
+    internal sealed class TraceResultBuilder
     {
         public TraceResult CreateTraceResult(TraceInfo traceInfo)
         {

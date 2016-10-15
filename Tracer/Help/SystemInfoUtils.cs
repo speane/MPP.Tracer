@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Tracer
 {
-    internal class SystemInfoUtils
+    internal sealed class SystemInfoUtils
     {
         public DateTime GetCurrentTime()
         {

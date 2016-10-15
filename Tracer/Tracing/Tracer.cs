@@ -1,6 +1,6 @@
 ﻿namespace Tracer
 {
-    public class Tracer : ITracer
+    public sealed class Tracer : ITracer
     {
         private static Tracer _instance;
         private static readonly object SyncRoot = new object();

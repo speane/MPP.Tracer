@@ -2,7 +2,7 @@
 
 namespace Tracer.Tracing.Formatters
 {
-    public class ConsoleTraceResultFormatter : ITraceResultFormatter
+    public sealed class ConsoleTraceResultFormatter : ITraceResultFormatter
     {
         public void Format(TraceResult traceResult)
         {

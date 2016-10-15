@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Tracer
 {
-    internal class MethodInfoNode
+    internal sealed class MethodInfoNode
     {
         public MethodInfoNode()
         {
